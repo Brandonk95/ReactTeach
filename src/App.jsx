@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { isLessonDone, lessons, lessonsById, playground, steps, units } from './course/index.js';
 import { useProgress } from './lib/progress.js';
-import { useAuth } from './lib/pocketbase.js';
-import { Login } from './components/Login.jsx';
 import { Sidebar } from './components/Sidebar.jsx';
 import { Home } from './components/Home.jsx';
 import { ExerciseView } from './components/ExerciseView.jsx';
@@ -27,24 +25,8 @@ function useRoute() {
 }
 
 export default function App() {
-  const auth = useAuth();
-  if (auth.checking) return <div className="empty">Checking your session…</div>;
-  if (!auth.user) return <Login onSignIn={auth.signIn} onSignUp={auth.signUp} />;
-  // Keyed by user so switching accounts starts from a clean slate.
-  return <Course key={auth.user.id} user={auth.user} onSignOut={auth.signOut} />;
-}
-
-const SAVE_LABELS = {
-  loading: 'Loading…',
-  saving: 'Saving…',
-  synced: 'Saved to your account',
-  offline: "Offline: saving in this browser until the server is back",
-  error: "The server rejected the last save. Progress is kept in this browser.",
-};
-
-function Course({ user, onSignOut }) {
   const route = useRoute();
-  const progress = useProgress(user);
+  const progress = useProgress();
   const [menuOpen, setMenuOpen] = useState(false);
   const doneCount = lessons.filter((l) => isLessonDone(l, progress.completed)).length;
 
@@ -98,9 +80,9 @@ function Course({ user, onSignOut }) {
               </a>
             </nav>
           )}
-          {(progress.status === 'offline' || progress.status === 'error') && (
-            <span className="save-warn" title={SAVE_LABELS[progress.status]}>
-              ⚠ {progress.status === 'offline' ? 'Offline' : 'Not saved'}
+          {progress.storage === 'error' && (
+            <span className="save-warn" title="The dev server didn't accept the last save. Progress is still kept in this browser.">
+              ⚠ Not saved to file
             </span>
           )}
           <div className="mini-progress" title={`${doneCount} of ${lessons.length} lessons complete`}>
@@ -109,41 +91,16 @@ function Course({ user, onSignOut }) {
             </div>
             <span>{Math.round((doneCount / lessons.length) * 100)}%</span>
           </div>
-          <UserMenu user={user} status={progress.status} onSignOut={onSignOut} />
         </div>
       </header>
 
       <Sidebar currentId={lesson?.id} completed={progress.completed} open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <main className="main">
-        {/* Wait for the account's progress so the editor opens with the saved code. */}
-        {progress.status === 'loading' && <div className="empty">Loading your progress…</div>}
-        {progress.status !== 'loading' && <Routes lesson={lesson} progress={progress} next={next} />}
+        {/* Wait for progress.json so the editor opens with the saved code. */}
+        {progress.storage === 'loading' && <div className="empty">Loading your progress…</div>}
+        {progress.storage !== 'loading' && <Routes lesson={lesson} progress={progress} next={next} />}
       </main>
-    </div>
-  );
-}
-
-function UserMenu({ user, status, onSignOut }) {
-  const [open, setOpen] = useState(false);
-  const initial = (user.name || user.email || '?').trim()[0].toUpperCase();
-  return (
-    <div className="user-menu">
-      <button className="avatar" onClick={() => setOpen((o) => !o)} aria-label="Account menu" aria-expanded={open}>
-        {initial}
-      </button>
-      {open && (
-        <>
-          <div className="menu-scrim" onClick={() => setOpen(false)} />
-          <div className="menu" role="menu">
-            <div className="menu-email">{user.email}</div>
-            <div className={`menu-status status-${status}`}>{SAVE_LABELS[status]}</div>
-            <button className="menu-item" role="menuitem" onClick={onSignOut}>
-              Sign out
-            </button>
-          </div>
-        </>
-      )}
     </div>
   );
 }

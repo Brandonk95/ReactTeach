@@ -1,8 +1,2 @@
 node_modules
 dist
-
-# PocketBase: binary, database and local dev accounts stay out of git
-pocketbase/pocketbase
-pocketbase/pocketbase.exe
-pocketbase/pb_data
-pocketbase/*.local.json
