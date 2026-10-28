@@ -1,58 +1,36 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
-import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
-const PROGRESS_FILE = fileURLToPath(new URL('./progress.json', import.meta.url));
+const LEGACY_PROGRESS = fileURLToPath(new URL('./progress.json', import.meta.url));
 
-// Serves /api/progress so the app can keep course progress in progress.json
-// next to the project, instead of only in the browser's localStorage.
-function progressFile() {
-  const handler = (req, res) => {
-    if (req.method === 'GET') {
-      res.setHeader('Content-Type', 'application/json');
-      res.setHeader('Cache-Control', 'no-store');
-      res.end(existsSync(PROGRESS_FILE) ? readFileSync(PROGRESS_FILE, 'utf8') : 'null');
-      return;
-    }
-    if (req.method === 'PUT' || req.method === 'POST') {
-      let body = '';
-      req.on('data', (chunk) => (body += chunk));
-      req.on('end', () => {
-        try {
-          const data = JSON.parse(body);
-          // Write to a temp file first so a crash mid-write can't corrupt the real file.
-          const tmp = `${PROGRESS_FILE}.tmp`;
-          writeFileSync(tmp, JSON.stringify(data, null, 2));
-          renameSync(tmp, PROGRESS_FILE);
-          res.statusCode = 204;
-        } catch {
-          res.statusCode = 400;
-        }
-        res.end();
-      });
-      return;
-    }
-    res.statusCode = 405;
-    res.end();
-  };
+// Progress used to be saved to progress.json by the dev server. It now lives in
+// PocketBase, but the old file stays readable (dev only) so it can be imported
+// into an account on first sign-in.
+function legacyProgressFile() {
   return {
-    name: 'progress-file',
+    name: 'legacy-progress-file',
     configureServer(server) {
-      server.middlewares.use('/api/progress', handler);
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use('/api/progress', handler);
+      server.middlewares.use('/legacy-progress.json', (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Cache-Control', 'no-store');
+        res.end(existsSync(LEGACY_PROGRESS) ? readFileSync(LEGACY_PROGRESS, 'utf8') : 'null');
+      });
     },
   };
 }
 
+// In development the site runs on Vite while PocketBase runs separately
+// (`npm run pb`), so its API and dashboard are proxied to keep one origin.
+const POCKETBASE = 'http://127.0.0.1:8090';
+const proxy = { '/api': POCKETBASE, '/_/': POCKETBASE };
+
 export default defineConfig({
   base: './',
-  plugins: [react(), progressFile()],
-  server: {
-    watch: { ignored: ['**/progress.json', '**/progress.json.tmp'] },
-  },
+  plugins: [react(), legacyProgressFile()],
+  server: { proxy },
+  preview: { proxy },
   build: {
     chunkSizeWarningLimit: 1200,
     rollupOptions: {

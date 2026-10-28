@@ -1,9 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { pb } from './pocketbase.js';
 
-const KEY = 'reactteach:v1';
-const API = `${import.meta.env.BASE_URL}api/progress`;
+// Progress is stored per user and per course in PocketBase's "progress"
+// collection, with a localStorage copy so nothing is lost while offline.
+const COURSE = 'react';
+const LEGACY_KEY = 'reactteach:v1'; // browser cache from before accounts existed
+const cacheKey = (userId) => `reactteach:${COURSE}:${userId}`;
+const SAVE_DELAY = 800;
+const RETRY_DELAY = 30000;
+
 const EMPTY = { completed: {}, code: {}, lastLesson: null, updatedAt: 0 };
 const VERSION = 2;
+const fresh = () => ({ ...EMPTY, version: VERSION });
 
 // Version 2 added a practice step to each lesson. Lessons finished before that
 // count as fully done, so their practice is marked complete. Runs once per
@@ -15,14 +23,6 @@ function upgrade(s) {
     if (!id.endsWith('/practice')) completed[`${id}/practice`] = true;
   }
   return { ...s, completed, version: VERSION };
-}
-
-function loadLocal() {
-  try {
-    return upgrade({ ...EMPTY, ...JSON.parse(localStorage.getItem(KEY)) });
-  } catch {
-    return { ...EMPTY, version: VERSION };
-  }
 }
 
 function normalize(data) {
@@ -42,70 +42,152 @@ export function mergeProgress(a, b) {
   };
 }
 
-async function readFile() {
-  const res = await fetch(API, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return normalize(await res.json());
+function readCache(key) {
+  try {
+    return normalize(JSON.parse(localStorage.getItem(key)));
+  } catch {
+    return null;
+  }
 }
 
-function writeFile(state) {
-  return fetch(API, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state) }).then((res) => {
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  });
+function writeCache(key, state) {
+  try {
+    localStorage.setItem(key, JSON.stringify(state));
+  } catch {
+    /* storage unavailable */
+  }
 }
 
-// Course progress and saved code. Stored in progress.json (via the dev server)
-// when available, with localStorage as a cache and fallback.
-// storage: 'loading' | 'file' | 'local' | 'error'
-export function useProgress() {
-  const [state, setState] = useState(loadLocal);
-  const [storage, setStorage] = useState('loading');
+// Progress saved before accounts existed: this browser's old cache and, when
+// running the dev server, the old progress.json file. Neither is deleted.
+async function loadLegacy() {
+  let legacy = readCache(LEGACY_KEY);
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}legacy-progress.json`, { cache: 'no-store' });
+    if (res.ok && (res.headers.get('content-type') || '').includes('json')) {
+      const file = normalize(await res.json());
+      if (file) legacy = legacy ? mergeProgress(file, legacy) : file;
+    }
+  } catch {
+    /* no legacy file (production build) */
+  }
+  return legacy;
+}
+
+// No response, or a proxy/gateway error (5xx): the server is down, not refusing us.
+const isUnreachable = (err) => !err?.status || err.status >= 500;
+
+const findRecord = (userId) =>
+  pb
+    .collection('progress')
+    .getFirstListItem(pb.filter('user = {:user} && course = {:course}', { user: userId, course: COURSE }))
+    .catch((err) => {
+      if (err?.status === 404) return null;
+      throw err;
+    });
+
+// Fetches the user's progress record, creating it on first sign-in from any
+// pre-account progress. Returns { record, data } with cached changes merged in.
+async function loadRemote(userId, key) {
+  let record = await findRecord(userId);
+  const cached = readCache(key);
+  if (record) {
+    const remote = normalize(record.data) ?? fresh();
+    return { record, data: cached ? mergeProgress(remote, cached) : remote };
+  }
+  const legacy = await loadLegacy();
+  const data = [legacy, cached].filter(Boolean).reduce(mergeProgress, fresh());
+  try {
+    record = await pb.collection('progress').create({ user: userId, course: COURSE, data });
+  } catch (err) {
+    // Another tab (or React's dev double-mount) created it first.
+    record = await findRecord(userId);
+    if (!record) throw err;
+    return { record, data: mergeProgress(normalize(record.data) ?? fresh(), data) };
+  }
+  return { record, data };
+}
+
+// Course progress and saved code for the signed-in user.
+// status: 'loading' | 'synced' | 'saving' | 'offline' | 'error'
+export function useProgress(user) {
+  const key = cacheKey(user.id);
+  const [state, setState] = useState(() => readCache(key) ?? fresh());
+  const [status, setStatus] = useState('loading');
+  const [ready, setReady] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const recordId = useRef(null);
   const latest = useRef(state);
   latest.current = state;
   const dirty = useRef(false);
 
-  // Load progress.json once and merge it with whatever this browser has.
+  // Load (and on reconnect, re-sync) the account's progress.
   useEffect(() => {
     let cancelled = false;
-    readFile()
-      .then((fromFile) => {
+    loadRemote(user.id, key)
+      .then(({ record, data }) => {
         if (cancelled) return;
-        const local = loadLocal();
-        const merged = fromFile ? mergeProgress(fromFile, local) : local;
-        setState(merged);
-        // Switching to 'file' triggers the save effect, which writes the merged result.
-        setStorage('file');
+        recordId.current = record.id;
+        setState(data);
+        setReady(true);
+        setStatus('synced');
       })
-      .catch(() => !cancelled && setStorage('local'));
+      .catch((err) => {
+        if (cancelled) return;
+        if (err?.status === 401) pb.authStore.clear();
+        setStatus('offline');
+      });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [user.id, key, attempt]);
 
-  // Save on every change: localStorage immediately, the file after a short pause.
+  // While offline, retry periodically and as soon as the browser reconnects.
   useEffect(() => {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(state));
-    } catch {
-      /* storage unavailable */
-    }
-    if (storage !== 'file' && storage !== 'error') return;
+    if (status !== 'offline') return;
+    const retry = () => setAttempt((n) => n + 1);
+    const id = setTimeout(retry, RETRY_DELAY);
+    window.addEventListener('online', retry);
+    return () => {
+      clearTimeout(id);
+      window.removeEventListener('online', retry);
+    };
+  }, [status]);
+
+  // Save on every change: localStorage immediately, the account after a short pause.
+  useEffect(() => {
+    writeCache(key, state);
+    if (!ready || !recordId.current) return;
     dirty.current = true;
     const id = setTimeout(() => {
-      writeFile(state)
+      setStatus('saving');
+      pb.collection('progress')
+        .update(recordId.current, { data: state })
         .then(() => {
           dirty.current = false;
-          setStorage('file');
+          setStatus('synced');
         })
-        .catch(() => setStorage('error'));
-    }, 500);
+        .catch((err) => {
+          if (err?.status === 401) pb.authStore.clear();
+          setStatus(isUnreachable(err) ? 'offline' : 'error');
+        });
+    }, SAVE_DELAY);
     return () => clearTimeout(id);
-  }, [state, storage]);
+  }, [state, ready, key]);
 
-  // Flush a pending save if the tab is closed during the debounce window.
+  // Best-effort save if the tab closes during the pause. The local cache is
+  // merged in on the next visit anyway, so nothing is lost if this fails.
   useEffect(() => {
     const flush = () => {
-      if (dirty.current) navigator.sendBeacon(API, new Blob([JSON.stringify(latest.current)], { type: 'application/json' }));
+      if (!dirty.current || !recordId.current) return;
+      const body = JSON.stringify({ data: latest.current });
+      if (body.length > 60000) return; // keepalive requests are size-limited
+      fetch(pb.buildURL(`/api/collections/progress/records/${recordId.current}`), {
+        method: 'PATCH',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', Authorization: pb.authStore.token },
+        body,
+      }).catch(() => {});
     };
     window.addEventListener('pagehide', flush);
     return () => window.removeEventListener('pagehide', flush);
@@ -121,12 +203,12 @@ export function useProgress() {
   const complete = useCallback((id) => update((s) => (s.completed[id] ? s : { ...s, completed: { ...s.completed, [id]: true } })), [update]);
   const saveCode = useCallback((id, code) => update((s) => (s.code[id] === code ? s : { ...s, code: { ...s.code, [id]: code } })), [update]);
   const visit = useCallback((id) => update((s) => (s.lastLesson === id ? s : { ...s, lastLesson: id })), [update]);
-  const resetAll = useCallback(() => setState({ ...EMPTY, version: VERSION, updatedAt: Date.now() }), []);
+  const resetAll = useCallback(() => setState({ ...fresh(), updatedAt: Date.now() }), []);
   const importData = useCallback((data) => {
     const incoming = normalize(data);
     if (!incoming || typeof incoming.completed !== 'object' || typeof incoming.code !== 'object') throw new Error('That file is not a ReactTeach progress file.');
     setState({ ...incoming, updatedAt: Date.now() });
   }, []);
 
-  return { ...state, storage, complete, saveCode, visit, resetAll, importData };
+  return { ...state, status, ready, complete, saveCode, visit, resetAll, importData };
 }

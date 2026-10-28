@@ -2,13 +2,14 @@ import { isLessonDone, lessons, lessonsById, steps, units } from '../course/inde
 import { lessonState } from './Sidebar.jsx';
 
 const STORAGE_LABELS = {
-  file: '💾 Progress and code are saved to progress.json in the project folder.',
-  local: 'Progress is saved in this browser only (no dev server). Export a backup to move it.',
-  error: "⚠ Couldn't write progress.json. Progress is kept in this browser for now.",
+  synced: '☁️ Progress and code are saved to your account.',
+  saving: '☁️ Progress and code are saved to your account.',
+  offline: "⚠ Can't reach the server. Changes are kept in this browser and sync when it's back.",
+  error: '⚠ The server rejected the last save. Changes are kept in this browser.',
 };
 
-function exportProgress({ completed, code, lastLesson, updatedAt }) {
-  const blob = new Blob([JSON.stringify({ completed, code, lastLesson, updatedAt }, null, 2)], { type: 'application/json' });
+function exportProgress({ completed, code, lastLesson, updatedAt, version }) {
+  const blob = new Blob([JSON.stringify({ completed, code, lastLesson, updatedAt, version }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `reactteach-progress-${new Date().toISOString().slice(0, 10)}.json`;
@@ -120,7 +121,7 @@ export function Home({ progress }) {
         </div>
 
         <footer className="home-foot">
-          <span>{STORAGE_LABELS[progress.storage]}</span>
+          <span>{STORAGE_LABELS[progress.status]}</span>
           <button className="link" onClick={() => exportProgress(progress)}>
             Export backup
           </button>
