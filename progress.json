@@ -1,0 +1,26 @@
+{
+  "completed": {
+    "welcome": true,
+    "variables": true,
+    "strings-numbers": true,
+    "functions": true,
+    "conditionals": true,
+    "welcome/practice": true,
+    "variables/practice": true,
+    "strings-numbers/practice": true,
+    "functions/practice": true,
+    "conditionals/practice": true
+  },
+  "code": {
+    "welcome": "// Your first JavaScript program!\n// Use console.log() to print things (it's JavaScript's print()).\nconsole.log(\"Hello, React!\")\nconsole.log(2+3)",
+    "variables": "// 1. Create a constant named city\nconst city = \"Paris\"\n\n// 2. Create a variable named visits that starts at 1\nlet visits = 1\n\n// 3. Add 1 to visits\nvisits += 1\n\n// 4. Log city, then visits\nconsole.log(city)\nconsole.log(visits)",
+    "strings-numbers": "const item = \"coffee\";\nconst price = 3.5;\nconst quantity = 4;\n\n// 1. Build the receipt with a template literal: \"4 x coffee = $14\"\nconst receipt = `${quantity} x ${item} = $${price * quantity}`;\n\n// 2. true if the total is more than 10\nconst isExpensive = price * quantity > 10;\n\n// 3. Log the receipt\nconsole.log(receipt)",
+    "functions": "// 1. greet(name) with a default of \"friend\"\nfunction greet(name=\"friend\") {\n  return `Hello, ${name}!`\n}\n\n// 2. square as an arrow function\nconst square = (n) => n*n;\n\n// 3. applyTwice(fn, x)\nfunction applyTwice(fn, x) {\n  return fn(fn(x));\n}\n\n// Try them out:\nconsole.log(greet(\"Ada\"));\nconsole.log(greet());\nconsole.log(applyTwice(square, 3))",
+    "conditionals": "function grade(score) {\n  if (score >= 90) {\n    return \"A\"\n  } else if (score >= 80) {\n    return \"B\"\n  } else if (score >= 70) {\n    return \"C\"\n  } else {\n    return \"F\"\n    }\n}\n\nconst parity = (n) => {\n  const result = n % 2 === 0 ? \"even\" : \"odd\";\n  return result\n};\n\nconsole.log(grade(95), grade(85), grade(72), grade(40));\nconsole.log(parity(4), parity(7));\n",
+    "arrays-loops": "const nums = [1, 2, 3, 4, 5, 6];\n\nfunction doubled(arr) {\n  // use .map()\n}\n\nfunction evens(arr) {\n  // use .filter()\n}\n\nfunction total(arr) {\n  // a for...of loop or .reduce()\n}\n\nconsole.log(doubled(nums));\nconsole.log(evens(nums));\nconsole.log(total(nums));",
+    "conditionals/practice": "// Write your code here.\nfunction fizzbuzz(n) {\n  if (n % 3 === 0 && n % 5 === 0) {\n    return \"FizzBuzz\"\n  } else if (n % 3 === 0) {\n    return \"Fizz\"\n  } else if (n % 5 === 0) {\n    return \"Buzz\"\n  } else {\n    return String(n)\n  }\n}\nlet age = 18;\nconst canVote = (age >= 18) ? \"yes\" : \"no\";\n\nconsole.log(fizzbuzz(15))\nconsole.log(canVote)\n"
+  },
+  "lastLesson": "conditionals/practice",
+  "updatedAt": 1793204070340,
+  "version": 2
+}
