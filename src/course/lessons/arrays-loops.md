@@ -73,11 +73,16 @@ const total = nums.reduce((acc, n) => acc + n, 0);
 - `.filter(fn)` returns a **new** array with only the items where `fn` returns truthy.
 - Neither one changes the original array.
 - `.map` also passes the index: `nums.map((n, i) => ...)`, like `enumerate`.
+- `.reduce(fn, start)` combines everything into one value. `acc` starts as `start` (the `0` above) and becomes whatever `fn` returns each time. Always pass a starting value: without one, `.reduce()` crashes on an empty array.
+
+> ⚠️ Remember: a function with a `{ }` body needs `return`, or it returns `undefined`. `function doubled(arr) { arr.map(...) }` computes the new array and then throws it away.
 
 @@ instructions
-1. `doubled(arr)` returns a new array with every number doubled. Use `.map()`.
-2. `evens(arr)` returns only the even numbers. Use `.filter()`.
-3. `total(arr)` returns the sum of all numbers (`0` for an empty array). Use a `for...of` loop or `.reduce()`, your choice.
+1. `doubled(arr)` returns a **new** array with every number doubled, using `.map()`. Don't change the array that was passed in.
+2. `evens(arr)` returns a new array of only the even numbers, using `.filter()`.
+3. `total(arr)` returns the sum of all the numbers, and `0` for an empty array. Use a `for...of` loop or `.reduce()` with a starting value of `0`.
+
+The tests call your functions with their own arrays (not just `nums`), so make sure each one works for any array.
 
 @@ starter
 const nums = [1, 2, 3, 4, 5, 6];

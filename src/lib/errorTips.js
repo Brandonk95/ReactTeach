@@ -29,6 +29,7 @@ export function errorTip(message = '') {
     return `You tried to read \`.${m[2]}\` from something that is \`${m[1]}\`. Check that the value before \`.${m[2]}\` actually exists (like Python's \`AttributeError: 'NoneType' object has no attribute\`).`;
   }
   if ((m = /(\S+) is not a function/.exec(message))) return `\`${m[1]}\` is not a function, so you can't call it with \`()\`. Check the name, and whether it was defined or returned correctly.`;
+  if (/Reduce of empty array with no initial value/.test(message)) return 'Give `.reduce()` a starting value as its second argument, like `arr.reduce((sum, n) => sum + n, 0)`, so it also works on an empty array.';
   if (/Objects are not valid as a React child/.test(message)) return 'You tried to render a whole object. Render one of its properties instead, such as `{user.name}`.';
   if (/Too many re-renders/.test(message)) return 'A state setter is being called during render, probably `onClick={setX(...)}`. Wrap it: `onClick={() => setX(...)}`.';
   if (/Rendered (more|fewer) hooks/.test(message)) return 'Hooks must be called in the same order every render. Don\'t call them inside `if` statements or loops.';

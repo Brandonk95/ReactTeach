@@ -2,7 +2,8 @@
 // we compile it, run it, render <App />, run the lesson's tests, and post results back.
 import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
-import { compile } from './compile.js';
+import { compile, stripComments } from './compile.js';
+import { errorTip } from '../lib/errorTips.js';
 import { createHelpers, show, TestFailure } from './testkit.js';
 import { installMockApi } from './mockApi.js';
 import { lessonsById } from '../course/index.js';
@@ -145,7 +146,9 @@ async function runTests(tests, ctx) {
       ]);
       results.push({ name: test.name, passed: true });
     } catch (err) {
-      const message = err instanceof TestFailure ? err.message : `${err?.name || 'Error'}: ${err?.message || err}`;
+      let message = err instanceof TestFailure ? err.message : `${err?.name || 'Error'}: ${err?.message || err}`;
+      const tip = err instanceof TestFailure ? null : errorTip(err?.message);
+      if (tip) message += `${/[.!?]$/.test(message) ? '' : '.'} ${tip}`;
       results.push({ name: test.name, passed: false, message });
     } finally {
       t.cleanup();
@@ -183,7 +186,8 @@ async function run({ code, lessonId, check }) {
 
   if (check && lesson.tests?.length) {
     await new Promise((r) => setTimeout(r, 50));
-    const results = await runTests(lesson.tests, { exports, logs, source: code });
+    // Tests that inspect the code see it without comments.
+    const results = await runTests(lesson.tests, { exports, logs, source: stripComments(code) });
     post({ type: 'tests', results });
   }
   post({ type: 'done' });

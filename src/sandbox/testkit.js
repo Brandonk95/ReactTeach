@@ -26,10 +26,13 @@ function deepEqual(a, b) {
   return ka.every((k) => deepEqual(a[k], b[k]));
 }
 
+// A function call that produced undefined almost always means a missing return.
+const RETURN_HINT = ' Did your function forget to `return` its result? (Unlike an arrow function without braces, a `{ ... }` body needs an explicit `return`.)';
+
 export function expect(actual, label) {
   const what = label ? `${label} ` : '';
   const fail = (msg) => {
-    throw new TestFailure(msg);
+    throw new TestFailure(actual === undefined && /\(.*\)/.test(label || '') ? msg + RETURN_HINT : msg);
   };
   return {
     toBe(expected) {

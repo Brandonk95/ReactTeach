@@ -73,6 +73,32 @@ export function guardLoops(code) {
   return out;
 }
 
+// Removes // and /* */ comments (leaving strings intact), so tests that look
+// for things like ".map(" in the student's code aren't fooled by comments.
+export function stripComments(code) {
+  let out = '';
+  let i = 0;
+  const n = code.length;
+  while (i < n) {
+    const ch = code[i];
+    if (ch === '"' || ch === "'" || ch === '`') {
+      const end = skipString(code, i);
+      out += code.slice(i, end);
+      i = end;
+    } else if (ch === '/' && code[i + 1] === '/') {
+      const j = code.indexOf('\n', i);
+      i = j === -1 ? n : j;
+    } else if (ch === '/' && code[i + 1] === '*') {
+      const j = code.indexOf('*/', i + 2);
+      i = j === -1 ? n : j + 2;
+    } else {
+      out += ch;
+      i++;
+    }
+  }
+  return out;
+}
+
 function skipSpace(code, i) {
   while (i < code.length && /\s/.test(code[i])) i++;
   return i;

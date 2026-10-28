@@ -173,18 +173,18 @@ export const units = [
         expose: ['doubled', 'evens', 'total'],
         tests: [
           {
-            name: 'doubled([1, 2, 3]) returns [2, 4, 6] using .map',
+            name: 'doubled([1, 2, 3]) returns a new array [2, 4, 6] using .map',
             run: ({ exports, source, expect, fail }) => {
               const input = [1, 2, 3];
               expect(fn(exports, 'doubled')(input), 'doubled([1, 2, 3])').toEqual([2, 4, 6]);
-              expect(input, 'the original array').toEqual([1, 2, 3]);
+              if (input[0] !== 1) fail('doubled changed the array it was given (it became ' + JSON.stringify(input) + '). Return a new array from `.map()` instead of changing the original.');
               if (!source.includes('.map(')) fail('Use the `.map()` method for doubled.');
             },
           },
           {
             name: 'evens([1, 2, 3, 4, 5, 6]) returns [2, 4, 6] using .filter',
             run: ({ exports, source, expect, fail }) => {
-              expect(fn(exports, 'evens')([1, 2, 3, 4, 5, 6]), 'evens([1..6])').toEqual([2, 4, 6]);
+              expect(fn(exports, 'evens')([1, 2, 3, 4, 5, 6]), 'evens([1, 2, 3, 4, 5, 6])').toEqual([2, 4, 6]);
               if (!source.includes('.filter(')) fail('Use the `.filter()` method for evens.');
             },
           },
