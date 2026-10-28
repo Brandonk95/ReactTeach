@@ -122,7 +122,7 @@ export const units = [
             name: 'square is an arrow function and square(5) is 25',
             run: ({ exports, source, expect, fail }) => {
               expect(fn(exports, 'square')(5), 'square(5)').toBe(25);
-              if (!/square\s*=\s*(\([^)]*\)|\w+)\s*=>/.test(source)) fail('Write `square` as an arrow function: `const square = (n) => ...`');
+              if (!/square\s*=\s*(\([^)]*\)|\w+)\s*=>/.test(source)) fail('Write `square` as an arrow function: `const square = (number) => ...`');
             },
           },
           {
@@ -449,25 +449,25 @@ export const units = [
         expose: ['Inbox'],
         tests: [
           {
-            name: '<Inbox count={0} /> shows "No new messages"',
+            name: '<Inbox messageCount={0} /> shows "No new messages"',
             run: async ({ exports, render, h, text, $, expect }) => {
-              const c = await render(h(fn(exports, 'Inbox'), { count: 0 }));
+              const c = await render(h(fn(exports, 'Inbox'), { messageCount: 0 }));
               expect(text(c), 'the rendered text').toBe('No new messages');
               expect($('strong', c), 'a <strong> warning').toBeFalsy();
             },
           },
           {
-            name: '<Inbox count={3} /> shows "You have 3 new messages"',
+            name: '<Inbox messageCount={3} /> shows "You have 3 new messages"',
             run: async ({ exports, render, h, text, $, expect }) => {
-              const c = await render(h(fn(exports, 'Inbox'), { count: 3 }));
+              const c = await render(h(fn(exports, 'Inbox'), { messageCount: 3 }));
               expect(text(c), 'the rendered text').toContain('You have 3 new messages');
               expect($('strong', c), 'a <strong> warning').toBeFalsy();
             },
           },
           {
-            name: '<Inbox count={25} /> also shows <strong>That\'s a lot!</strong>',
+            name: '<Inbox messageCount={25} /> also shows <strong>That\'s a lot!</strong>',
             run: async ({ exports, render, h, text, $, expect }) => {
-              const c = await render(h(fn(exports, 'Inbox'), { count: 25 }));
+              const c = await render(h(fn(exports, 'Inbox'), { messageCount: 25 }));
               expect(text(c), 'the rendered text').toContain('You have 25 new messages');
               expect(text($('strong', c)), 'the <strong> text').toBe("That's a lot!");
             },
@@ -625,7 +625,7 @@ export const units = [
               const c = await render();
               await type($('input', c), 'Grace');
               if (!/value=\{/.test(source)) fail('Give the input value={name} so React controls it.');
-              if (!/onChange=\{/.test(source)) fail('Add an onChange handler that calls setName(e.target.value).');
+              if (!/onChange=\{/.test(source)) fail('Add an onChange handler that calls setName(event.target.value).');
             },
           },
           {

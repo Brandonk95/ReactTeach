@@ -32,7 +32,7 @@ The child doesn't own any state. It just calls the function it was given:
 
 ```jsx
 function CelsiusInput({ celsius, onChange }) {
-  return <input value={celsius} onChange={(e) => onChange(Number(e.target.value))} />;
+  return <input value={celsius} onChange={(event) => onChange(Number(event.target.value))} />;
 }
 ```
 
@@ -48,18 +48,18 @@ class CelsiusInput:
 ////
 function CelsiusInput({ onChange }) {
   return (
-    <input onChange={(e) =>
-      onChange(Number(e.target.value))
+    <input onChange={(event) =>
+      onChange(Number(event.target.value))
     } />
   );
 }
 ```
 
-> `e.target.value` is always a **string**, even for `type="number"` inputs. Convert it with `Number(...)`, the JS version of `float(...)`.
+> `event.target.value` is always a **string**, even for `type="number"` inputs. Convert it with `Number(...)`, the JS version of `float(...)`.
 
 @@ instructions
 1. In `App`, create `celsius` state starting at `0`.
-2. `CelsiusInput` receives `celsius` and `onChange` props. Render an `<input type="number">` whose value is `celsius`, and which calls `onChange(Number(e.target.value))` when it changes.
+2. `CelsiusInput` receives `celsius` and `onChange` props. Render an `<input type="number">` whose value is `celsius`, and which calls `onChange(Number(event.target.value))` when it changes.
 3. `Fahrenheit` receives `celsius` and renders a `<p>` with the converted temperature followed by `°F`, for example `212°F`. (The formula is °F = °C × 9 / 5 + 32.)
 4. Make `App` render both, wired together.
 
@@ -92,7 +92,7 @@ function CelsiusInput({ celsius, onChange }) {
   return (
     <label>
       Celsius:{" "}
-      <input type="number" value={celsius} onChange={(e) => onChange(Number(e.target.value))} />
+      <input type="number" value={celsius} onChange={(event) => onChange(Number(event.target.value))} />
     </label>
   );
 }
@@ -117,7 +117,7 @@ function App() {
 In App: `const [celsius, setCelsius] = useState(0);` then `<CelsiusInput celsius={celsius} onChange={setCelsius} />`
 
 @@ hint
-`<input type="number" value={celsius} onChange={(e) => onChange(Number(e.target.value))} />`
+`<input type="number" value={celsius} onChange={(event) => onChange(Number(event.target.value))} />`
 
 @@ hint
 `return <p>{celsius * 9 / 5 + 32}°F</p>;`

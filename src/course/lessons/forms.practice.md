@@ -2,8 +2,8 @@
 
 Recap:
 
-- Controlled input: `value={text}` plus `onChange={(e) => setText(e.target.value)}`
-- Because the text lives in state, you can calculate from it: `text.length`
+- Controlled input: `value={postText}` plus `onChange={(event) => setPostText(event.target.value)}`
+- Because the text lives in state, you can calculate from it: `postText.length`
 
 @@ instructions
 Build a tweet-style box with a 50-character limit:
@@ -22,18 +22,18 @@ function App() {
 @@ solution
 import { useState } from "react";
 
-const LIMIT = 50;
+const MAX_LENGTH = 50;
 
 function App() {
-  const [text, setText] = useState("");
+  const [postText, setPostText] = useState("");
 
   return (
     <div>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} />
+      <textarea value={postText} onChange={(event) => setPostText(event.target.value)} />
       <p className="count">
-        {text.length} / {LIMIT}
+        {postText.length} / {MAX_LENGTH}
       </p>
-      {text.length > LIMIT && <p className="warning">Too long!</p>}
+      {postText.length > MAX_LENGTH && <p className="warning">Too long!</p>}
     </div>
   );
 }

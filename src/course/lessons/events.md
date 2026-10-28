@@ -55,7 +55,7 @@ The arrow function *wraps* the call so it only runs on click.
 Handlers receive an event object with details about what happened:
 
 ```jsx
-<input onChange={(e) => console.log(e.target.value)} />
+<input onChange={(event) => console.log(event.target.value)} />
 ```
 
 Common events: `onClick`, `onChange`, `onSubmit`, `onKeyDown`, `onMouseEnter`, `onFocus`, `onBlur`.

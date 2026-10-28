@@ -75,7 +75,7 @@ Functions starting with `use` are called **hooks**. Two rules:
 When the new state depends on the old one, you can pass a function:
 
 ```jsx
-setCount((c) => c + 1); // always uses the latest value
+setCount((previousCount) => previousCount + 1); // always uses the latest value
 ```
 
 @@ instructions

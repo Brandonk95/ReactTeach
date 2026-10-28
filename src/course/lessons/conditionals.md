@@ -77,7 +77,7 @@ if (list.length === 0) { /* ... */ }
    - `"B"` for 80–89
    - `"C"` for 70–79
    - `"F"` for anything lower
-2. Write `parity(n)` that returns `"even"` or `"odd"` using the **ternary operator**.
+2. Write `parity(number)` that returns `"even"` or `"odd"` using the **ternary operator**.
 3. Use `===` for equality checks (the tests will look!).
 
 @@ starter
@@ -85,7 +85,7 @@ function grade(score) {
   // use if / else if / else
 }
 
-const parity = (n) => {
+const parity = (number) => {
   // use a ternary here
 };
 
@@ -105,7 +105,7 @@ function grade(score) {
   }
 }
 
-const parity = (n) => (n % 2 === 0 ? "even" : "odd");
+const parity = (number) => (number % 2 === 0 ? "even" : "odd");
 
 console.log(grade(95), grade(85), grade(72), grade(40));
 console.log(parity(4), parity(7));
@@ -114,4 +114,4 @@ console.log(parity(4), parity(7));
 Check from the highest grade down: `if (score >= 90) { return "A"; } else if (score >= 80) { ... }`
 
 @@ hint
-A number is even when `n % 2 === 0`. Then: `return n % 2 === 0 ? "even" : "odd";`
+A number is even when `number % 2 === 0`. Then: `return number % 2 === 0 ? "even" : "odd";`

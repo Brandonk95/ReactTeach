@@ -5,11 +5,11 @@ Since components are just functions, you can use **normal JavaScript** to decide
 ### 1. `if` with an early return
 
 ```jsx
-function Inbox({ count }) {
-  if (count === 0) {
+function Inbox({ messageCount }) {
+  if (messageCount === 0) {
     return <p>All caught up!</p>;
   }
-  return <p>{count} unread</p>;
+  return <p>{messageCount} unread</p>;
 }
 ```
 
@@ -43,8 +43,8 @@ false && "shown"    // false (renders nothing)
 React **does** render the number `0`. So this has a bug:
 
 ```jsx
-{count && <p>{count} messages</p>}  // shows "0" when count is 0! 🐛
-{count > 0 && <p>{count} messages</p>}  // ✅
+{messageCount && <p>{messageCount} messages</p>}  // shows "0" when messageCount is 0! 🐛
+{messageCount > 0 && <p>{messageCount} messages</p>}  // ✅
 ```
 
 ### Returning `null`
@@ -59,14 +59,14 @@ function Warning({ show }) {
 ```
 
 @@ instructions
-Finish the `Inbox` component, which takes a `count` prop:
+Finish the `Inbox` component, which takes a `messageCount` prop:
 
-1. If `count` is `0`, render a `<p>` with exactly `No new messages`.
-2. Otherwise, render `<p>You have {count} new messages</p>`.
-3. If `count` is **10 or more**, *also* render `<strong>That's a lot!</strong>` after the paragraph.
+1. If `messageCount` is `0`, render a `<p>` with exactly `No new messages`.
+2. Otherwise, render `<p>You have {messageCount} new messages</p>`.
+3. If `messageCount` is **10 or more**, *also* render `<strong>That's a lot!</strong>` after the paragraph.
 
 @@ starter
-function Inbox({ count }) {
+function Inbox({ messageCount }) {
   // 1. no messages?
 
   // 2. and 3.
@@ -80,22 +80,22 @@ function Inbox({ count }) {
 function App() {
   return (
     <div>
-      <Inbox count={0} />
-      <Inbox count={3} />
-      <Inbox count={25} />
+      <Inbox messageCount={0} />
+      <Inbox messageCount={3} />
+      <Inbox messageCount={25} />
     </div>
   );
 }
 
 @@ solution
-function Inbox({ count }) {
-  if (count === 0) {
+function Inbox({ messageCount }) {
+  if (messageCount === 0) {
     return <p>No new messages</p>;
   }
   return (
     <div>
-      <p>You have {count} new messages</p>
-      {count >= 10 && <strong>That's a lot!</strong>}
+      <p>You have {messageCount} new messages</p>
+      {messageCount >= 10 && <strong>That's a lot!</strong>}
     </div>
   );
 }
@@ -103,15 +103,15 @@ function Inbox({ count }) {
 function App() {
   return (
     <div>
-      <Inbox count={0} />
-      <Inbox count={3} />
-      <Inbox count={25} />
+      <Inbox messageCount={0} />
+      <Inbox messageCount={3} />
+      <Inbox messageCount={25} />
     </div>
   );
 }
 
 @@ hint
-Start with an early return: `if (count === 0) { return <p>No new messages</p>; }`
+Start with an early return: `if (messageCount === 0) { return <p>No new messages</p>; }`
 
 @@ hint
-For the warning: `{count >= 10 && <strong>That's a lot!</strong>}`
+For the warning: `{messageCount >= 10 && <strong>That's a lot!</strong>}`

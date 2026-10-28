@@ -33,19 +33,19 @@ function App() {
 import { useState, useEffect } from "react";
 
 function App() {
-  const [text, setText] = useState(() => localStorage.getItem("note") || "");
+  const [note, setNote] = useState(() => localStorage.getItem("note") || "");
 
   useEffect(() => {
-    localStorage.setItem("note", text);
-  }, [text]);
+    localStorage.setItem("note", note);
+  }, [note]);
 
   return (
     <div>
       <h2>Notepad</h2>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} rows={6} cols={40} />
+      <textarea value={note} onChange={(event) => setNote(event.target.value)} rows={6} cols={40} />
     </div>
   );
 }
 
 @@ hint
-The effect is one line, `localStorage.setItem("note", text);`, with `[text]` as the dependency array.
+The effect is one line, `localStorage.setItem("note", note);`, with `[note]` as the dependency array.

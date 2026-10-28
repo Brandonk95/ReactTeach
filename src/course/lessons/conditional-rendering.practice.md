@@ -8,7 +8,7 @@ Recap:
 
 @@ instructions
 1. `Status({ online })` renders a `<p>` saying `Online` or `Offline`. Use a ternary.
-2. `Cart({ items })` renders **nothing** (return `null`) when `items` is `0`. Otherwise it renders `<p>{items} items in cart</p>`.
+2. `Cart({ itemCount })` renders **nothing** (return `null`) when `itemCount` is `0`. Otherwise it renders `<p>{itemCount} items in cart</p>`.
 3. Show a few of each in `App`.
 
 @@ starter
@@ -19,11 +19,11 @@ function Status({ online }) {
   return <p>{online ? "Online" : "Offline"}</p>;
 }
 
-function Cart({ items }) {
-  if (items === 0) {
+function Cart({ itemCount }) {
+  if (itemCount === 0) {
     return null;
   }
-  return <p>{items} items in cart</p>;
+  return <p>{itemCount} items in cart</p>;
 }
 
 function App() {
@@ -31,11 +31,11 @@ function App() {
     <div>
       <Status online />
       <Status online={false} />
-      <Cart items={0} />
-      <Cart items={2} />
+      <Cart itemCount={0} />
+      <Cart itemCount={2} />
     </div>
   );
 }
 
 @@ hint
-Early return in Cart: `if (items === 0) { return null; }`
+Early return in Cart: `if (itemCount === 0) { return null; }`

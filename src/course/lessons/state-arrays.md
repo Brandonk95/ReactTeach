@@ -17,7 +17,7 @@ React decides whether to re-render by checking if the new value **is the same ob
 
 | Goal | ❌ Mutating | ✅ New array |
 |---|---|---|
-| Add | `todos.push(x)` | `[...todos, x]` |
+| Add | `todos.push(newTodo)` | `[...todos, newTodo]` |
 | Remove | `todos.splice(i, 1)` | `todos.filter((t) => t.id !== id)` |
 | Change one | `todos[i].done = true` | `todos.map((t) => t.id === id ? { ...t, done: true } : t)` |
 
@@ -39,14 +39,14 @@ Each todo needs a stable `id` for its `key`. `crypto.randomUUID()` (built into b
 `"  hi  ".trim()` → `"hi"`, which is Python's `.strip()`. Use it to ignore blank entries:
 
 ```jsx
-if (text.trim() === "") return;
+if (newTodoText.trim() === "") return;
 ```
 
 @@ instructions
 Build a todo list:
 
-1. Keep two pieces of state: `text` (the input, starting `""`) and `todos` (an array, starting `[]`).
-2. When the form is submitted (the **Add** button), add a new todo `{ id, text }` and clear the input. **Ignore blank input.**
+1. Keep two pieces of state: `newTodoText` (what's typed in the input, starting `""`) and `todos` (an array, starting `[]`).
+2. When the form is submitted (the **Add** button), add a new todo `{ id, text: newTodoText }` and clear the input. **Ignore blank input.**
 3. Render each todo as an `<li>` showing its text and a **Delete** button that removes it.
 4. Don't mutate: use spread to add and `.filter()` to delete.
 
@@ -54,11 +54,11 @@ Build a todo list:
 import { useState } from "react";
 
 function App() {
-  const [text, setText] = useState("");
+  const [newTodoText, setNewTodoText] = useState("");
   const [todos, setTodos] = useState([]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
     // add the todo (unless it's blank), then clear the input
   }
 
@@ -70,7 +70,7 @@ function App() {
     <div>
       <h2>Todo List</h2>
       <form onSubmit={handleSubmit}>
-        <input value={text} onChange={(e) => setText(e.target.value)} />
+        <input value={newTodoText} onChange={(event) => setNewTodoText(event.target.value)} />
         <button>Add</button>
       </form>
       <ul>
@@ -84,14 +84,14 @@ function App() {
 import { useState } from "react";
 
 function App() {
-  const [text, setText] = useState("");
+  const [newTodoText, setNewTodoText] = useState("");
   const [todos, setTodos] = useState([]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (text.trim() === "") return;
-    setTodos([...todos, { id: crypto.randomUUID(), text: text.trim() }]);
-    setText("");
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (newTodoText.trim() === "") return;
+    setTodos([...todos, { id: crypto.randomUUID(), text: newTodoText.trim() }]);
+    setNewTodoText("");
   }
 
   function deleteTodo(id) {
@@ -102,7 +102,7 @@ function App() {
     <div>
       <h2>Todo List</h2>
       <form onSubmit={handleSubmit}>
-        <input value={text} onChange={(e) => setText(e.target.value)} />
+        <input value={newTodoText} onChange={(event) => setNewTodoText(event.target.value)} />
         <button>Add</button>
       </form>
       <ul>
@@ -117,7 +117,7 @@ function App() {
 }
 
 @@ hint
-Adding: `setTodos([...todos, { id: crypto.randomUUID(), text }]);` then `setText("");`
+Adding: `setTodos([...todos, { id: crypto.randomUUID(), text: newTodoText }]);` then `setNewTodoText("");`
 
 @@ hint
 Deleting: `setTodos(todos.filter((todo) => todo.id !== id));`

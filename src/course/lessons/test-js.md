@@ -9,7 +9,7 @@ The sample solution unlocks once you pass.
 A teacher keeps their gradebook as an array of students, each with a list of test scores. Write a small program that analyzes it.
 
 ```js
-const students = [
+const gradebook = [
   { name: "Ada", scores: [95, 90, 98] },
   { name: "Grace", scores: [88, 92, 79] },
   { name: "Linus", scores: [72, 65, 70] },
@@ -28,17 +28,19 @@ Write these four functions, then use them to print the report.
 
 | Function | Returns |
 |---|---|
-| `average(nums)` | The mean of an array of numbers. Return `0` for an empty array. |
-| `letterGrade(avg)` | `"A"` for 90+, `"B"` for 80+, `"C"` for 70+, `"D"` for 60+, otherwise `"F"` |
+| `average(scores)` | The mean of an array of numbers. Return `0` for an empty array. |
+| `letterGrade(score)` | `"A"` for 90+, `"B"` for 80+, `"C"` for 70+, `"D"` for 60+, otherwise `"F"` |
 | `report(students)` | An array of strings, one per student, like `"Ada: 94 (A)"`. Round the average with `Math.round`, and base the letter on that rounded number. |
 | `honorRoll(students)` | An array of the **names** of students whose average is 90 or more |
 
 Your program must also:
 
-- **Log each line** of `report(students)` with `console.log`
+- **Log each line** of `report(gradebook)` with `console.log`
 - Use `.map()` and `.filter()` (in `report` and `honorRoll`, for example)
-- **Not modify** the `students` array or the objects in it
+- **Not modify** the array passed in, or the objects in it
 - Use `const` / `let`, never `var`
+
+Inside your functions, use their parameters (`students`, `scores`, `score`), not `gradebook`. The tests call them with other data too.
 
 Expected output:
 
@@ -53,7 +55,7 @@ Guido: 92 (A)
 // Unit 1 Test: Gradebook
 // Read the requirements on the left, then write your program below.
 
-const students = [
+const gradebook = [
   { name: "Ada", scores: [95, 90, 98] },
   { name: "Grace", scores: [88, 92, 79] },
   { name: "Linus", scores: [72, 65, 70] },
@@ -61,38 +63,38 @@ const students = [
 ];
 
 @@ solution
-const students = [
+const gradebook = [
   { name: "Ada", scores: [95, 90, 98] },
   { name: "Grace", scores: [88, 92, 79] },
   { name: "Linus", scores: [72, 65, 70] },
   { name: "Guido", scores: [100, 85, 91] },
 ];
 
-function average(nums) {
-  if (nums.length === 0) return 0;
-  return nums.reduce((sum, n) => sum + n, 0) / nums.length;
+function average(scores) {
+  if (scores.length === 0) return 0;
+  return scores.reduce((sum, score) => sum + score, 0) / scores.length;
 }
 
-function letterGrade(avg) {
-  if (avg >= 90) return "A";
-  if (avg >= 80) return "B";
-  if (avg >= 70) return "C";
-  if (avg >= 60) return "D";
+function letterGrade(score) {
+  if (score >= 90) return "A";
+  if (score >= 80) return "B";
+  if (score >= 70) return "C";
+  if (score >= 60) return "D";
   return "F";
 }
 
 function report(students) {
   return students.map(({ name, scores }) => {
-    const avg = Math.round(average(scores));
-    return `${name}: ${avg} (${letterGrade(avg)})`;
+    const roundedAverage = Math.round(average(scores));
+    return `${name}: ${roundedAverage} (${letterGrade(roundedAverage)})`;
   });
 }
 
 function honorRoll(students) {
-  return students.filter((s) => average(s.scores) >= 90).map((s) => s.name);
+  return students.filter((student) => average(student.scores) >= 90).map((student) => student.name);
 }
 
-for (const line of report(students)) {
+for (const line of report(gradebook)) {
   console.log(line);
 }
-console.log("Honor roll:", honorRoll(students));
+console.log("Honor roll:", honorRoll(gradebook));

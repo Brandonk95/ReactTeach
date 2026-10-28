@@ -117,7 +117,7 @@ export const practice = {
         name: '`double` is an arrow function and double(4) is 8',
         run: ({ exports, source, expect, fail }) => {
           expect(fn(exports, 'double')(4), 'double(4)').toBe(8);
-          if (!isArrow(source, 'double')) fail('Write `double` as an arrow function: `const double = (n) => ...`');
+          if (!isArrow(source, 'double')) fail('Write `double` as an arrow function: `const double = (number) => ...`');
         },
       },
       {
@@ -129,7 +129,7 @@ export const practice = {
         run: ({ exports, expect }) => expect(fn(exports, 'describePet')('Tom'), 'describePet("Tom")').toBe('Tom is a cat'),
       },
       {
-        name: 'compose(f, g, x) returns f(g(x))',
+        name: 'compose(outer, inner, value) returns outer(inner(value))',
         run: ({ exports, expect }) => {
           const compose = fn(exports, 'compose');
           expect(compose((n) => n * 2, (n) => n + 1, 3), 'compose(double, addOne, 3)').toBe(8);
@@ -183,12 +183,12 @@ export const practice = {
         },
       },
       {
-        name: 'countMatches(arr, target) counts with a for...of loop',
+        name: 'countMatches(items, target) counts with a for...of loop',
         run: ({ exports, source, expect, fail }) => {
           const countMatches = fn(exports, 'countMatches');
           expect(countMatches([1, 2, 1, 3, 1], 1), 'countMatches([1, 2, 1, 3, 1], 1)').toBe(3);
           expect(countMatches(['a', 'b'], 'z'), 'countMatches(["a", "b"], "z")').toBe(0);
-          if (!/for\s*\(\s*(const|let)\s+\w+\s+of\b/.test(source)) fail('Use a `for (const item of arr)` loop in countMatches.');
+          if (!/for\s*\(\s*(const|let)\s+\w+\s+of\b/.test(source)) fail('Use a `for (const item of items)` loop in countMatches.');
         },
       },
     ],
@@ -378,17 +378,17 @@ export const practice = {
         },
       },
       {
-        name: '<Cart items={0} /> renders nothing at all (returns null)',
+        name: '<Cart itemCount={0} /> renders nothing at all (returns null)',
         run: async ({ exports, render, h, source, expect, fail }) => {
-          const c = await render(h(fn(exports, 'Cart'), { items: 0 }));
+          const c = await render(h(fn(exports, 'Cart'), { itemCount: 0 }));
           expect(c.innerHTML, 'the rendered HTML').toBe('');
           if (!/return\s+null/.test(source)) fail('Return `null` when the cart is empty.');
         },
       },
       {
-        name: '<Cart items={2} /> says "2 items in cart"',
+        name: '<Cart itemCount={2} /> says "2 items in cart"',
         run: async ({ exports, render, h, text, expect }) => {
-          const c = await render(h(fn(exports, 'Cart'), { items: 2 }));
+          const c = await render(h(fn(exports, 'Cart'), { itemCount: 2 }));
           expect(text(c), 'the rendered text').toBe('2 items in cart');
         },
       },
@@ -407,7 +407,7 @@ export const practice = {
         },
       },
       {
-        name: 'Typing in the input logs what was typed (e.target.value)',
+        name: 'Typing in the input logs what was typed (event.target.value)',
         run: async ({ render, $, type, logs, expect, fail }) => {
           const c = await render();
           const input = $('input', c);

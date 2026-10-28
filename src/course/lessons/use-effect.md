@@ -53,7 +53,7 @@ useEffect(() => {
 - `setInterval(fn, ms)` runs `fn` every `ms` milliseconds
 - Both return an ID you pass to `clearTimeout` / `clearInterval`
 
-> ⚠️ Inside a `setInterval` callback, use the **updater form** `setSeconds((s) => s + 1)`. The callback was created during the first render, so a plain `seconds` variable inside it would be stuck at `0` forever.
+> ⚠️ Inside a `setInterval` callback, use the **updater form** `setSeconds((previousSeconds) => previousSeconds + 1)`. The callback was created during the first render, so a plain `seconds` variable inside it would be stuck at `0` forever.
 
 @@ instructions
 Build two components (App already renders both):
@@ -107,7 +107,7 @@ function Timer() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      setSeconds((s) => s + 1);
+      setSeconds((previousSeconds) => previousSeconds + 1);
     }, 1000);
     return () => clearInterval(id);
   }, []);
@@ -128,7 +128,7 @@ function App() {
 `` useEffect(() => { document.title = `Clicked ${count} times`; }, [count]); ``
 
 @@ hint
-In Timer: `const id = setInterval(() => setSeconds((s) => s + 1), 1000);`
+In Timer: `const id = setInterval(() => setSeconds((previousSeconds) => previousSeconds + 1), 1000);`
 
 @@ hint
 Return the cleanup from the effect: `return () => clearInterval(id);` and use `[]` as the dependency array.

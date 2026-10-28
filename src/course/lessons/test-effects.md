@@ -62,9 +62,9 @@ function useFetch(url) {
         const resp = await fetch(url);
         if (!resp.ok) throw new Error(`Request failed with status ${resp.status}`);
         setData(await resp.json());
-      } catch (e) {
+      } catch (fetchError) {
         setData(null);
-        setError(e.message);
+        setError(fetchError.message);
       } finally {
         setLoading(false);
       }
@@ -83,18 +83,18 @@ function App() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error">Error: {error}</p>;
 
-  const matches = users.filter((u) => u.name.toLowerCase().includes(search.toLowerCase()));
+  const matches = users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div>
       <h2>User Directory</h2>
-      <input placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} />
       {matches.length === 0 ? (
         <p>No users match</p>
       ) : (
         <ul>
-          {matches.map((u) => (
-            <li key={u.id}>{u.name}</li>
+          {matches.map((user) => (
+            <li key={user.id}>{user.name}</li>
           ))}
         </ul>
       )}

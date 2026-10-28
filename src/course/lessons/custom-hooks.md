@@ -10,7 +10,7 @@ It's the React version of refactoring repeated code into a helper function.
 ```jsx
 function useCounter(initial = 0) {
   const [count, setCount] = useState(initial);
-  const increment = () => setCount((c) => c + 1);
+  const increment = () => setCount((previousCount) => previousCount + 1);
   const reset = () => setCount(initial);
   return { count, increment, reset };
 }
@@ -85,7 +85,7 @@ import { useState } from "react";
 
 function useToggle(initial = false) {
   const [value, setValue] = useState(initial);
-  const toggle = () => setValue((v) => !v);
+  const toggle = () => setValue((previousValue) => !previousValue);
   return [value, toggle];
 }
 
@@ -105,7 +105,7 @@ function App() {
 Inside the hook: `const [value, setValue] = useState(initial);`
 
 @@ hint
-`const toggle = () => setValue((v) => !v);` then `return [value, toggle];`
+`const toggle = () => setValue((previousValue) => !previousValue);` then `return [value, toggle];`
 
 @@ hint
 In App: `const [open, toggleOpen] = useToggle();` and `{open && <p>Secret details</p>}`

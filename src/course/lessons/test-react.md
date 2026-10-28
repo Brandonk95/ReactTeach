@@ -9,7 +9,7 @@ The sample solution unlocks once you pass.
 You're building the product page for a small online shop. The data is already written for you:
 
 ```js
-const products = [
+const inventory = [
   { id: 1, name: "Keyboard", price: 49, inStock: true },
   { id: 2, name: "Mouse", price: 25, inStock: true },
   { id: 3, name: "Monitor", price: 199, inStock: false },
@@ -45,8 +45,10 @@ Build three components.
 **`App`** renders:
 
 - `<h1>Shop</h1>`
-- `<p className="summary">3 of 4 in stock</p>`, where both numbers are **calculated** from `products` (don't type them!)
-- A `ProductList` showing all the products
+- `<p className="summary">3 of 4 in stock</p>`, where both numbers are **calculated** from `inventory` (don't type them!)
+- A `ProductList` showing everything in `inventory`
+
+Inside `ProductList`, use its `products` prop, not `inventory`. The tests render it with other lists too.
 
 Use `className`, never `class`.
 
@@ -54,7 +56,7 @@ Use `className`, never `class`.
 // Unit 2 Test: Product Catalog
 // Read the requirements on the left, then build your components below.
 
-const products = [
+const inventory = [
   { id: 1, name: "Keyboard", price: 49, inStock: true },
   { id: 2, name: "Mouse", price: 25, inStock: true },
   { id: 3, name: "Monitor", price: 199, inStock: false },
@@ -66,7 +68,7 @@ function App() {
 }
 
 @@ solution
-const products = [
+const inventory = [
   { id: 1, name: "Keyboard", price: 49, inStock: true },
   { id: 2, name: "Mouse", price: 25, inStock: true },
   { id: 3, name: "Monitor", price: 199, inStock: false },
@@ -97,14 +99,14 @@ function ProductList({ products }) {
 }
 
 function App() {
-  const inStock = products.filter((p) => p.inStock).length;
+  const inStockCount = inventory.filter((product) => product.inStock).length;
   return (
     <div>
       <h1>Shop</h1>
       <p className="summary">
-        {inStock} of {products.length} in stock
+        {inStockCount} of {inventory.length} in stock
       </p>
-      <ProductList products={products} />
+      <ProductList products={inventory} />
     </div>
   );
 }

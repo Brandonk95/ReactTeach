@@ -22,8 +22,8 @@ function useCounter(initial = 0, step = 1) {
   const [count, setCount] = useState(initial);
   return {
     count,
-    increment: () => setCount((c) => c + step),
-    decrement: () => setCount((c) => c - step),
+    increment: () => setCount((previousCount) => previousCount + step),
+    decrement: () => setCount((previousCount) => previousCount - step),
     reset: () => setCount(initial),
   };
 }

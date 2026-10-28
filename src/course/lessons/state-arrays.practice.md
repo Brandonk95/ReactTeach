@@ -44,7 +44,7 @@ function App() {
     { id: 3, name: "Bread", done: false },
   ]);
 
-  function toggle(id) {
+  function toggleDone(id) {
     setItems(items.map((item) => (item.id === id ? { ...item, done: !item.done } : item)));
   }
 
@@ -58,7 +58,7 @@ function App() {
       <ul>
         {items.map((item) => (
           <li key={item.id} className={item.done ? "done" : ""}>
-            {item.name} <button onClick={() => toggle(item.id)}>Toggle</button>
+            {item.name} <button onClick={() => toggleDone(item.id)}>Toggle</button>
           </li>
         ))}
       </ul>

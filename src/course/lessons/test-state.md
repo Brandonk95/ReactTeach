@@ -15,9 +15,9 @@ Before writing any code, decide:
 
 ### Useful reminders
 
-- `e.target.value` is always a **string**. Convert amounts with `Number(...)`.
+- `event.target.value` is always a **string**. Convert amounts with `Number(...)`.
 - `"  hi ".trim()` removes surrounding spaces, like Python's `.strip()`.
-- `.reduce((sum, x) => sum + x.amount, 0)` adds up a field across an array.
+- `.reduce((sum, expense) => sum + expense.amount, 0)` adds up a field across an array.
 
 @@ instructions
 Your `App` must have:
@@ -34,7 +34,7 @@ Behavior:
 - After adding, **both inputs are cleared**.
 - Expenses with a **blank description**, or an amount that is **empty, zero or negative**, are ignored.
 - Keep everything in `useState`, and **never mutate** state: no `.push`, `.splice` or `.pop`.
-- Don't forget `e.preventDefault()` in your submit handler!
+- Don't forget `event.preventDefault()` in your submit handler!
 
 @@ starter
 // Unit 3 Test: Expense Tracker
@@ -57,33 +57,33 @@ function App() {
   const [amount, setAmount] = useState("");
   const [expenses, setExpenses] = useState([]);
 
-  const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const value = Number(amount);
-    if (description.trim() === "" || amount === "" || value <= 0) return;
-    setExpenses([...expenses, { id: crypto.randomUUID(), description: description.trim(), amount: value }]);
+  function handleSubmit(event) {
+    event.preventDefault();
+    const amountNumber = Number(amount);
+    if (description.trim() === "" || amount === "" || amountNumber <= 0) return;
+    setExpenses([...expenses, { id: crypto.randomUUID(), description: description.trim(), amount: amountNumber }]);
     setDescription("");
     setAmount("");
   }
 
   function deleteExpense(id) {
-    setExpenses(expenses.filter((e) => e.id !== id));
+    setExpenses(expenses.filter((expense) => expense.id !== id));
   }
 
   return (
     <div>
       <h2>Expense Tracker</h2>
       <form onSubmit={handleSubmit}>
-        <input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <input placeholder="Description" value={description} onChange={(event) => setDescription(event.target.value)} />
+        <input type="number" placeholder="Amount" value={amount} onChange={(event) => setAmount(event.target.value)} />
         <button>Add</button>
       </form>
       <ul>
-        {expenses.map((e) => (
-          <li key={e.id}>
-            {e.description}: ${e.amount} <button onClick={() => deleteExpense(e.id)}>Delete</button>
+        {expenses.map((expense) => (
+          <li key={expense.id}>
+            {expense.description}: ${expense.amount} <button onClick={() => deleteExpense(expense.id)}>Delete</button>
           </li>
         ))}
       </ul>

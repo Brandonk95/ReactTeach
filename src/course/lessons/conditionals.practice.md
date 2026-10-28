@@ -7,7 +7,7 @@ Recap:
 - Ternary: `cond ? a : b` (Python's `a if cond else b`)
 
 @@ instructions
-1. Write the classic `fizzbuzz(n)`:
+1. Write the classic `fizzbuzz(number)`:
    - divisible by 3 **and** 5 → `"FizzBuzz"`
    - divisible by 3 → `"Fizz"`
    - divisible by 5 → `"Buzz"`
@@ -18,25 +18,25 @@ Recap:
 
 
 @@ solution
-function fizzbuzz(n) {
-  if (n % 15 === 0) {
+function fizzbuzz(number) {
+  if (number % 15 === 0) {
     return "FizzBuzz";
-  } else if (n % 3 === 0) {
+  } else if (number % 3 === 0) {
     return "Fizz";
-  } else if (n % 5 === 0) {
+  } else if (number % 5 === 0) {
     return "Buzz";
   }
-  return String(n);
+  return String(number);
 }
 
 const canVote = (age) => (age >= 18 ? "yes" : "no");
 
-for (let i = 1; i <= 15; i++) {
-  console.log(fizzbuzz(i));
+for (let count = 1; count <= 15; count++) {
+  console.log(fizzbuzz(count));
 }
 
 @@ hint
-Check the "both" case first (`n % 15 === 0`), or the `% 3` branch will catch 15 before you get there.
+Check the "both" case first (`number % 15 === 0`), or the `% 3` branch will catch 15 before you get there.
 
 @@ hint
-Turn a number into a string with `String(n)`, the JS version of `str(n)`.
+Turn a number into a string with `String(number)`, the JS version of `str(number)`.

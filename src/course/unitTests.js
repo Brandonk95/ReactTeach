@@ -62,7 +62,7 @@ export const unitTests = {
     expose: ['average', 'letterGrade', 'report', 'honorRoll'],
     tests: [
       {
-        name: '`average(nums)` returns the mean, and `0` for an empty array',
+        name: '`average(scores)` returns the mean, and `0` for an empty array',
         run: ({ exports, expect }) => {
           const average = fn(exports, 'average');
           expect(average([90, 80, 100]), 'average([90, 80, 100])').toBe(90);
@@ -71,7 +71,7 @@ export const unitTests = {
         },
       },
       {
-        name: '`letterGrade(avg)` returns A (90+), B (80+), C (70+), D (60+) or F',
+        name: '`letterGrade(score)` returns A (90+), B (80+), C (70+), D (60+) or F',
         run: ({ exports, expect }) => {
           const letterGrade = fn(exports, 'letterGrade');
           const cases = [[90, 'A'], [89, 'B'], [80, 'B'], [79, 'C'], [70, 'C'], [69, 'D'], [60, 'D'], [59, 'F'], [0, 'F']];

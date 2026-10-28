@@ -14,7 +14,7 @@ Show a leaderboard of only the players who scored **20 or more** points.
 - Use `.filter()`, then `.map()`, with `key={...id}`
 
 @@ starter
-const scores = [
+const leaderboard = [
   { id: 1, player: "Ana", points: 30 },
   { id: 2, player: "Ben", points: 12 },
   { id: 3, player: "Cy", points: 45 },
@@ -25,7 +25,7 @@ function App() {
 }
 
 @@ solution
-const scores = [
+const leaderboard = [
   { id: 1, player: "Ana", points: 30 },
   { id: 2, player: "Ben", points: 12 },
   { id: 3, player: "Cy", points: 45 },
@@ -34,11 +34,11 @@ const scores = [
 function App() {
   return (
     <ol>
-      {scores
-        .filter((s) => s.points >= 20)
-        .map((s) => (
-          <li key={s.id}>
-            {s.player}: {s.points}
+      {leaderboard
+        .filter((entry) => entry.points >= 20)
+        .map((entry) => (
+          <li key={entry.id}>
+            {entry.player}: {entry.points}
           </li>
         ))}
     </ol>
@@ -46,4 +46,4 @@ function App() {
 }
 
 @@ hint
-`scores.filter((s) => s.points >= 20).map((s) => <li key={s.id}>{s.player}: {s.points}</li>)`
+`leaderboard.filter((entry) => entry.points >= 20).map((entry) => <li key={entry.id}>{entry.player}: {entry.points}</li>)`

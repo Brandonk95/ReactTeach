@@ -48,7 +48,7 @@ function UserList() {
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  return <ul>{users.map((u) => <li key={u.id}>{u.name}</li>)}</ul>;
+  return <ul>{users.map((user) => <li key={user.id}>{user.name}</li>)}</ul>;
 }
 ```
 
@@ -61,13 +61,13 @@ Use `try/catch`, which is the JavaScript `try/except`:
 ```compare
 try:
     data = await fetch_data()
-except Exception as e:
-    error = str(e)
+except Exception as fetch_error:
+    error = str(fetch_error)
 ////
 try {
   const data = await fetchData();
-} catch (e) {
-  setError(e.message);
+} catch (fetchError) {
+  setError(fetchError.message);
 }
 ```
 
@@ -122,8 +122,8 @@ function App() {
         const resp = await fetch("https://api.example.com/users");
         if (!resp.ok) throw new Error(`Server returned ${resp.status}`);
         setUsers(await resp.json());
-      } catch (e) {
-        setError(e.message);
+      } catch (fetchError) {
+        setError(fetchError.message);
       } finally {
         setLoading(false);
       }
@@ -152,4 +152,4 @@ Inside `useEffect(() => { ... }, [])`, define `async function load() { ... }` an
 In `load`: `const resp = await fetch("https://api.example.com/users"); setUsers(await resp.json()); setLoading(false);`
 
 @@ hint
-In the JSX: `{loading ? <p>Loading...</p> : <ul>{users.map((u) => <li key={u.id}>{u.name}</li>)}</ul>}`
+In the JSX: `{loading ? <p>Loading...</p> : <ul>{users.map((user) => <li key={user.id}>{user.name}</li>)}</ul>}`

@@ -86,7 +86,7 @@ window.addEventListener('submit', (e) => {
     post({
       type: 'console',
       level: 'warn',
-      text: 'A form was submitted without calling e.preventDefault(). In a real app the whole page would reload! Add e.preventDefault() to your onSubmit handler.',
+      text: 'A form was submitted without calling event.preventDefault(). In a real app the whole page would reload! Add event.preventDefault() to your onSubmit handler.',
     });
   }
 });

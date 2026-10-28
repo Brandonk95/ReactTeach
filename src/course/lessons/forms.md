@@ -9,7 +9,7 @@ function NameField() {
   return (
     <input
       value={name}                               // state → input
-      onChange={(e) => setName(e.target.value)}  // input → state
+      onChange={(event) => setName(event.target.value)}  // input → state
     />
   );
 }
@@ -18,7 +18,7 @@ function NameField() {
 The loop goes like this:
 
 1. You type a letter.
-2. `onChange` fires; `e.target.value` is the input's new text.
+2. `onChange` fires; `event.target.value` is the input's new text.
 3. `setName(...)` updates state, and React re-renders.
 4. The input shows `value={name}`, the new state.
 
@@ -31,7 +31,7 @@ Because the text lives in state, you can use it anywhere else in the component: 
 
 ### Handling form submission
 
-Wrap inputs in a `<form>` and handle `onSubmit`. **Always call `e.preventDefault()`**: by default, browsers submit forms by **reloading the page**, which wipes your React app's state.
+Wrap inputs in a `<form>` and handle `onSubmit`. **Always call `event.preventDefault()`**: by default, browsers submit forms by **reloading the page**, which wipes your React app's state.
 
 ```compare
 # Flask: the browser POSTs and the
@@ -43,8 +43,8 @@ def signup():
 ////
 // React: handle it in the browser,
 // no page reload
-function handleSubmit(e) {
-  e.preventDefault();
+function handleSubmit(event) {
+  event.preventDefault();
   console.log("Signing up", name);
 }
 
@@ -91,7 +91,7 @@ function App() {
   return (
     <div>
       <label>
-        Your name: <input value={name} onChange={(e) => setName(e.target.value)} />
+        Your name: <input value={name} onChange={(event) => setName(event.target.value)} />
       </label>
       <p>Hello, {name || "stranger"}!</p>
     </div>
@@ -102,7 +102,7 @@ function App() {
 `const [name, setName] = useState("");`
 
 @@ hint
-`<input value={name} onChange={(e) => setName(e.target.value)} />`
+`<input value={name} onChange={(event) => setName(event.target.value)} />`
 
 @@ hint
 `<p>Hello, {name || "stranger"}!</p>`

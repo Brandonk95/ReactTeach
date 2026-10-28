@@ -70,15 +70,18 @@ const users = [
   { id: 1, name: "Ada" },
   { id: 2, name: "Grace" },
 ];
-const names = users.map((u) => u.name); // ["Ada", "Grace"]
+const names = users.map((user) => user.name); // ["Ada", "Grace"]
 ```
 
 @@ instructions
-1. Write `describe(person)` that returns `"Ada (36) from London"` for the user below. Use **destructuring** to pull out `name`, `age` and `city`.
+1. Write `describe(person)` that returns `"Ada (36) from London"` for `sampleUser`. Use **destructuring** to pull out `name`, `age` and `city`.
 2. Write `birthday(person)` that returns a **new** object with `age` increased by 1. Use the spread operator, and **don't change** the original object.
 
+Use the `person` parameter inside your functions, not `sampleUser`. The tests pass in their own people.
+
 @@ starter
-const user = { name: "Ada", age: 36, city: "London" };
+// Sample data for trying your functions. Don't use it inside them!
+const sampleUser = { name: "Ada", age: 36, city: "London" };
 
 function describe(person) {
   // destructure name, age, city from person
@@ -90,12 +93,13 @@ function birthday(person) {
 
 }
 
-console.log(describe(user));
-console.log(birthday(user));
-console.log(user); // should still be age 36!
+console.log(describe(sampleUser));
+console.log(birthday(sampleUser));
+console.log(sampleUser); // should still be age 36!
 
 @@ solution
-const user = { name: "Ada", age: 36, city: "London" };
+// Sample data for trying your functions. Don't use it inside them!
+const sampleUser = { name: "Ada", age: 36, city: "London" };
 
 function describe(person) {
   const { name, age, city } = person;
@@ -106,9 +110,9 @@ function birthday(person) {
   return { ...person, age: person.age + 1 };
 }
 
-console.log(describe(user));
-console.log(birthday(user));
-console.log(user);
+console.log(describe(sampleUser));
+console.log(birthday(sampleUser));
+console.log(sampleUser);
 
 @@ hint
 `const { name, age, city } = person;` creates three variables at once. Then build the string with a template literal.

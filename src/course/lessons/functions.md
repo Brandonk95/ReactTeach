@@ -30,17 +30,17 @@ Differences to notice:
 JavaScript has a second, shorter way to write functions that's used **everywhere** in React. They're like Python's `lambda`, but they can be as long as you want:
 
 ```compare
-square = lambda n: n * n
+square = lambda number: number * number
 
-def describe(n):
-    kind = "big" if n > 100 else "small"
-    return f"{n} is {kind}"
+def describe(number):
+    size = "big" if number > 100 else "small"
+    return f"{number} is {size}"
 ////
-const square = (n) => n * n;
+const square = (number) => number * number;
 
-const describe = (n) => {
-  const kind = n > 100 ? "big" : "small";
-  return `${n} is ${kind}`;
+const describe = (number) => {
+  const size = number > 100 ? "big" : "small";
+  return `${number} is ${size}`;
 };
 ```
 
@@ -52,13 +52,13 @@ const describe = (n) => {
 Just like in Python, you can pass functions to other functions. React does this constantly, for example by passing a function to run when a button is clicked.
 
 ```compare
-def call_with_5(fn):
-    return fn(5)
+def call_with_5(some_function):
+    return some_function(5)
 
 call_with_5(square)  # 25
 ////
-function callWith5(fn) {
-  return fn(5);
+function callWith5(someFunction) {
+  return someFunction(5);
 }
 
 callWith5(square); // 25
@@ -66,8 +66,8 @@ callWith5(square); // 25
 
 @@ instructions
 1. Write a function `greet(name)` that returns `` `Hello, ${name}!` ``. If no name is given, use `"friend"` as the default.
-2. Write `square` as an **arrow function** that returns its argument times itself.
-3. Write `applyTwice(fn, x)` that calls `fn` on `x`, then calls `fn` again on the result, and returns that. So `applyTwice(square, 3)` is `square(square(3))`, which is `81`.
+2. Write `square` as an **arrow function** that takes a `number` and returns it times itself.
+3. Write `applyTwice(transform, value)` that calls the function `transform` on `value`, then calls `transform` again on the result, and returns that. So `applyTwice(square, 3)` is `square(square(3))`, which is `81`.
 
 @@ starter
 // 1. greet(name) with a default of "friend"
@@ -78,7 +78,7 @@ function greet(name) {
 // 2. square as an arrow function
 const square = null;
 
-// 3. applyTwice(fn, x)
+// 3. applyTwice(transform, value)
 
 
 // Try them out:
@@ -90,10 +90,10 @@ function greet(name = "friend") {
   return `Hello, ${name}!`;
 }
 
-const square = (n) => n * n;
+const square = (number) => number * number;
 
-function applyTwice(fn, x) {
-  return fn(fn(x));
+function applyTwice(transform, value) {
+  return transform(transform(value));
 }
 
 console.log(greet("Ada"));
@@ -105,7 +105,7 @@ console.log(applyTwice(square, 3));
 Default parameters look just like Python: `function greet(name = "friend") { ... }`. Don't forget the `return`!
 
 @@ hint
-A one-line arrow function: `const square = (n) => n * n;`
+A one-line arrow function: `const square = (number) => number * number;`
 
 @@ hint
-`applyTwice` is one line: `return fn(fn(x));`
+`applyTwice` is one line: `return transform(transform(value));`
