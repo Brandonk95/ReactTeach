@@ -13,7 +13,17 @@ function friendlyAuthError(err) {
   return err.message || 'Sign-in failed.';
 }
 
-// The signed-in user (or null), plus sign-in / sign-out.
+function friendlySignUpError(err) {
+  if (err?.status === 403) return 'Sign-up is closed. Ask the site owner for an account.';
+  if (!err?.status || err.status >= 500) return "Can't reach the server. Is PocketBase running?";
+  const fields = err.response?.data || {};
+  if (fields.email?.code === 'validation_not_unique') return 'An account with that email already exists. Try signing in.';
+  if (fields.email) return 'Enter a valid email address.';
+  if (fields.password) return 'Password must be at least 8 characters.';
+  return err.message || 'Sign-up failed.';
+}
+
+// The signed-in user (or null), plus sign-in / sign-up / sign-out.
 export function useAuth() {
   const [user, setUser] = useState(() => (pb.authStore.isValid ? pb.authStore.record : null));
   const [checking, setChecking] = useState(pb.authStore.isValid);
@@ -42,7 +52,17 @@ export function useAuth() {
     }
   }, []);
 
+  // Creates an account, then signs straight in with it.
+  const signUp = useCallback(async (email, password) => {
+    try {
+      await pb.collection('users').create({ email, password, passwordConfirm: password });
+    } catch (err) {
+      throw new Error(friendlySignUpError(err));
+    }
+    await signIn(email, password);
+  }, [signIn]);
+
   const signOut = useCallback(() => pb.authStore.clear(), []);
 
-  return { user, checking, signIn, signOut };
+  return { user, checking, signIn, signUp, signOut };
 }

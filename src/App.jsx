@@ -29,7 +29,7 @@ function useRoute() {
 export default function App() {
   const auth = useAuth();
   if (auth.checking) return <div className="empty">Checking your session…</div>;
-  if (!auth.user) return <Login onSignIn={auth.signIn} />;
+  if (!auth.user) return <Login onSignIn={auth.signIn} onSignUp={auth.signUp} />;
   // Keyed by user so switching accounts starts from a clean slate.
   return <Course key={auth.user.id} user={auth.user} onSignOut={auth.signOut} />;
 }

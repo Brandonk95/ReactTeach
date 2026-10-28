@@ -16,7 +16,7 @@ The database lives in `pocketbase/pb_data/` (git-ignored). Its structure comes f
 
 ## Accounts
 
-Accounts are **invite-only**: public sign-up is turned off, so you create every account yourself.
+**Sign-up is currently open:** anyone who can reach the site can use **Create an account** on the sign-in screen. To make accounts invite-only again, open the dashboard and go to **Collections → users → API Rules → Create rule**, set it to **Superusers only** (the lock), and save. The sign-up form then shows "Sign-up is closed", and you create accounts yourself as described below.
 
 1. Create a superuser (the admin) once:
    ```bash
