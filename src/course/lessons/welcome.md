@@ -1,42 +1,23 @@
-## Welcome! 👋
+## Welcome
 
-You already know how to program: you know Python. This course builds on that. Every new idea in JavaScript and React is shown **next to the Python you already know**, so you're learning the *differences*, not programming from scratch.
+This course assumes you already know how to program. It skips the fundamentals and covers what's specific to **JavaScript** (its syntax and its quirks), then **React**.
 
-### How this course works
+### How it works
 
-Each lesson has three parts:
+- Each lesson has a short explanation, an exercise, and then a quick **practice** exercise to make it stick.
+- Write code in the editor. **Run** (`Ctrl`+`Enter`) shows console output and, for React lessons, a live **Preview**.
+- **Check** (`Ctrl`+`S`) runs the tests. The lesson completes when they all pass.
+- Stuck? Use the **Hints** tab, then the **Solution** tab.
+- Each unit ends with a quiz and a unit test, where you build something from a spec with no hints.
 
-1. **This panel** explains a concept with side-by-side Python ↔ JavaScript examples.
-2. **The editor** (middle) is where you write code. Press **Run** (or `Ctrl`+`Enter`) to try it.
-3. **The output** (right) shows your console output, a live **Preview** of React apps, and your **Tests**.
-
-When you think you're done, press **Check**. Automatic tests grade your work, and when they all pass the lesson is marked complete. Stuck? Open the **Hints** tab. Really stuck? The **Solution** tab is there too, no judgement.
-
-> 🐍 **Python habit detector:** if you type something Pythonic like `print(...)` or `True`, the console will gently point you to the JavaScript version.
-
-### Your first line of JavaScript
-
-JavaScript's `print` is `console.log`. Statements usually end with a semicolon (optional, but conventional).
-
-```compare
-print("Hello, world!")
-print(2 + 3)
-////
-console.log("Hello, world!");
-console.log(2 + 3);
-```
-
-Notice the differences:
-
-- `console.log(...)` instead of `print(...)`
-- An optional `;` at the end of each statement
-- Comments start with `//` instead of `#`
+### Printing output
 
 ```js
-// This is a comment in JavaScript
-/* This is a
-   multi-line comment */
+console.log("Hello");
+console.log(2 + 3, "and", [1, 2]); // several values, separated by spaces
 ```
+
+Statements end with `;`. It's technically optional, but conventional. Comments use `//` for a single line and `/* ... */` for a block.
 
 @@ instructions
 1. Log the text `Hello, React!` (exactly, including the comma and exclamation mark).
@@ -44,7 +25,7 @@ Notice the differences:
 
 @@ starter
 // Your first JavaScript program!
-// Use console.log() to print things (it's JavaScript's print()).
+// Use console.log() to print output.
 
 @@ solution
 // Your first JavaScript program!

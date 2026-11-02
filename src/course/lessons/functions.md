@@ -1,62 +1,38 @@
 ## Functions & Arrow Functions
 
-### Function declarations
-
-```compare
-def greet(name):
-    return "Hello, " + name
-
-def add(a, b=0):
-    return a + b
-////
-function greet(name) {
-  return "Hello, " + name;
-}
-
-function add(a, b = 0) {
-  return a + b;
+```js
+function add(first, second = 0) {
+  return first + second;
 }
 ```
 
-Differences to notice:
-
-- `function` instead of `def`
-- Parameters in `( )`, body in `{ }`. Indentation is just for humans.
-- Default values work the same way: `b = 0`.
-- **No `return` means the function returns `undefined`** (JavaScript's `None`).
+- Default parameters work as you'd expect.
+- No `return` means the function returns `undefined`.
+- Calling with missing arguments doesn't throw an error. The missing ones are just `undefined`.
 
 ### Arrow functions
 
-JavaScript has a second, shorter way to write functions that's used **everywhere** in React. They're like Python's `lambda`, but they can be as long as you want:
+The shorter syntax, used everywhere in React:
 
-```compare
-square = lambda number: number * number
-
-def describe(number):
-    size = "big" if number > 100 else "small"
-    return f"{number} is {size}"
-////
-const square = (number) => number * number;
+```js
+const square = (number) => number * number; // expression body: returned automatically
 
 const describe = (number) => {
+  // block body: needs an explicit return
   const size = number > 100 ? "big" : "small";
   return `${number} is ${size}`;
 };
 ```
 
-- With **no braces**, the expression after `=>` is returned automatically.
-- With **braces** `{ }`, you need an explicit `return`.
+- Without braces, the expression after `=>` is returned.
+- With braces `{ }`, you must write `return`.
+- To return an object literal directly, wrap it in parentheses: `() => ({ id: 1 })`.
 
 ### Functions are values
 
-Just like in Python, you can pass functions to other functions. React does this constantly, for example by passing a function to run when a button is clicked.
+Functions can be stored in variables, passed as arguments and returned. React relies on this heavily, for example to say what runs when a button is clicked.
 
-```compare
-def call_with_5(some_function):
-    return some_function(5)
-
-call_with_5(square)  # 25
-////
+```js
 function callWith5(someFunction) {
   return someFunction(5);
 }
@@ -102,7 +78,7 @@ console.log(square(5));
 console.log(applyTwice(square, 3));
 
 @@ hint
-Default parameters look just like Python: `function greet(name = "friend") { ... }`. Don't forget the `return`!
+Default parameter: `function greet(name = "friend") { ... }`. Don't forget the `return`!
 
 @@ hint
 A one-line arrow function: `const square = (number) => number * number;`

@@ -2,7 +2,7 @@
 
 Recap:
 
-- `function name(a, b = 1) { return ...; }` is `def name(a, b=1):`
+- `function name(first, second = 1) { return ...; }` declares a function with a default parameter
 - Arrow functions: `const name = (a) => a * 2;` (no braces means the result is returned automatically)
 - Functions are values you can pass around
 

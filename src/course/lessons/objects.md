@@ -1,65 +1,51 @@
 ## Objects, Destructuring & Spread
 
-JavaScript **objects** play the role of Python **dicts**, and you'll use them for almost all data in React.
+Objects are key-value collections, and you'll use them for almost all data:
 
-```compare
-user = {"name": "Ada", "age": 36}
-user["name"]
-user["age"] = 37
-user.get("email")   # None
-"name" in user
-user.keys()
-user.items()
-////
+```js
 const user = { name: "Ada", age: 36 };
-user.name           // dot access! (user["name"] works too)
-user.age = 37;
-user.email          // undefined (no KeyError)
-"name" in user
-Object.keys(user)
-Object.entries(user)
+user.name             // "Ada" (user["name"] works too, for dynamic keys)
+user.age = 37;        // const stops reassigning user, not changing its contents
+user.email            // undefined (missing keys don't throw)
+"name" in user        // true
+Object.keys(user)     // ["name", "age"]
+Object.entries(user)  // [["name", "Ada"], ["age", 37]]
 ```
 
-Keys don't need quotes when they're simple names, and you'll usually use **dot notation** (`user.name`).
+**Shorthand:** if a variable has the same name as the key, write it once:
 
-### Destructuring = tuple unpacking, but for objects too
+```js
+const name = "Grace";
+const person = { name, age: 85 }; // same as { name: name, age: 85 }
+```
 
-```compare
-x, y = (3, 4)
-first, *rest = [1, 2, 3]
+### Destructuring
 
-name = user["name"]
-age = user["age"]
-////
-const [x, y] = [3, 4];
-const [first, ...rest] = [1, 2, 3];
+Pull values out by name (objects) or position (arrays):
 
-// pull properties out by name:
+```js
 const { name, age } = user;
+const [first, second, ...rest] = [1, 2, 3, 4];
 ```
 
-You can even destructure **in the parameter list**. React components do this all the time:
+It also works directly in a parameter list. React components do this all the time:
 
 ```js
 function describe({ name, age }) {
   return `${name} is ${age}`;
 }
-describe(user); // "Ada is 36"
 ```
 
-### Spread `...` = `**` and `*`
+### Spread `...`
 
-The spread operator copies everything out of an object or array. This is how React code makes **updated copies** instead of changing data in place:
+Copies everything out of an object or array, which is how you make **updated copies** instead of changing data in place:
 
-```compare
-updated = {**user, "age": 37}
-combined = [*a, *b]
-////
-const updated = { ...user, age: 37 };
-const combined = [...a, ...b];
+```js
+const older = { ...user, age: 38 }; // copy, then override age (later keys win)
+const combined = [...listA, ...listB];
 ```
 
-Later keys win, so `{ ...user, age: 37 }` copies everything and then overrides `age`. The original `user` is untouched. Keep this in mind; it matters a lot in React!
+The original is untouched. Spread is a **shallow** copy: nested objects are still shared.
 
 ### Arrays of objects
 

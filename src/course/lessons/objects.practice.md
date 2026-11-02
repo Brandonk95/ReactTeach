@@ -3,7 +3,7 @@
 Recap:
 
 - Destructure in the parameters: `function f({ name, age }) { ... }`
-- Copy and change: `{ ...obj, key: newValue }` (Python's `{**obj, "key": new}`)
+- Copy and change: `{ ...original, key: newValue }`
 - Combine: `{ ...a, ...b }`, where later keys win
 
 @@ instructions

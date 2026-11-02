@@ -1,41 +1,22 @@
 ## Arrays, Loops & map/filter
 
-Python **lists** are JavaScript **arrays**. Most things carry over:
-
-```compare
-scores = [10, 20, 30]
-scores[0]          # 10
-scores[-1]         # 30
-len(scores)        # 3
-scores.append(40)
-30 in scores       # True
-scores[1:3]        # [20, 30]
-", ".join(names)
-////
+```js
 const scores = [10, 20, 30];
-scores[0]          // 10
-scores.at(-1)      // 30  (scores[-1] is undefined!)
-scores.length      // 3
-scores.push(40);
+scores[0]           // 10
+scores.at(-1)       // 30 (scores[-1] is undefined: no negative indexing)
+scores.length       // 3 (a property)
+scores.push(40);    // add to the end
 scores.includes(30) // true
-scores.slice(1, 3) // [20, 30]
-names.join(", ")
+scores.indexOf(20)  // 1 (-1 if not found)
+scores.slice(1, 3)  // [20, 30] (a copy, end not included)
+names.join(", ")    // "Ada, Grace"
 ```
 
-> Note: `const scores = [...]` doesn't make the array unchangeable. You can still `push` to it; you just can't reassign `scores` to a different array.
+`const scores = [...]` doesn't freeze the array. You can still `push` to it; you just can't reassign `scores`.
 
 ### Loops
 
-```compare
-for score in scores:
-    print(score)
-
-for index in range(3):
-    print(index)
-
-while count > 0:
-    count -= 1
-////
+```js
 for (const score of scores) {
   console.log(score);
 }
@@ -49,33 +30,25 @@ while (count > 0) {
 }
 ```
 
-⚠️ Use `for...of` for arrays. There's also a `for...in`, but it loops over **keys/indexes as strings**. It's a classic trap for Python developers!
+⚠️ Use `for...of` for arrays. `for...in` loops over **keys, as strings**, which is almost never what you want for an array.
 
-### map & filter: the list comprehensions of JavaScript
+### map, filter, reduce
 
-This is the most important part of this lesson. In React, you'll turn arrays of data into arrays of UI elements with `.map()`, constantly.
+These are the most important part of this lesson. In React you'll turn arrays of data into arrays of UI elements with `.map()` constantly.
 
-```compare
-doubled = [score * 2 for score in scores]
-
-high = [score for score in scores if score > 15]
-
-total = sum(scores)
-////
-const doubled = scores.map((score) => score * 2);
-
-const high = scores.filter((score) => score > 15);
-
-const total = scores.reduce((runningTotal, score) => runningTotal + score, 0);
+```js
+const doubled = scores.map((score) => score * 2);   // [20, 40, 60]
+const high = scores.filter((score) => score > 15);   // [20, 30]
+const total = scores.reduce((runningTotal, score) => runningTotal + score, 0); // 60
 ```
 
 - `.map(fn)` returns a **new** array with `fn` applied to every item.
-- `.filter(fn)` returns a **new** array with only the items where `fn` returns truthy.
+- `.filter(fn)` returns a **new** array with only the items where `fn` returns something truthy.
 - Neither one changes the original array.
-- `.map` also passes the index: `scores.map((score, index) => ...)`, like `enumerate`.
+- `.map` also passes the index: `scores.map((score, index) => ...)`.
 - `.reduce(fn, start)` combines everything into one value. `runningTotal` starts as `start` (the `0` above) and becomes whatever `fn` returns each time. Always pass a starting value: without one, `.reduce()` crashes on an empty array.
 
-> ⚠️ Remember: a function with a `{ }` body needs `return`, or it returns `undefined`. `function doubled(numbers) { numbers.map(...) }` computes the new array and then throws it away.
+> ⚠️ A function with a `{ }` body needs `return`, or it returns `undefined`. `function doubled(numbers) { numbers.map(...) }` computes the new array and then throws it away.
 
 @@ instructions
 1. `doubled(numbers)` returns a **new** array with every number doubled, using `.map()`. Don't change the array that was passed in.

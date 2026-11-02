@@ -1,8 +1,6 @@
 ## Side Effects with `useEffect`
 
-Components should be **pure**: given the same props and state, return the same JSX, and don't change anything outside themselves. But apps need to talk to the outside world: timers, network requests, the browser tab title, `localStorage`... These are **side effects**.
-
-`useEffect` runs code **after** React has updated the screen:
+Components should be **pure**: same props and state in, same JSX out, with no changes to anything outside themselves. Talking to the outside world (timers, the network, `document.title`, `localStorage`) is a **side effect**, and it goes in `useEffect`, which runs **after** React updates the screen:
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -20,8 +18,6 @@ function App() {
 
 ### The dependency array
 
-The second argument tells React **when** to re-run the effect:
-
 | Code | Runs... |
 |---|---|
 | `useEffect(fn, [count])` | after the first render, and whenever `count` changes |
@@ -30,30 +26,22 @@ The second argument tells React **when** to re-run the effect:
 
 ### Cleanup
 
-Some effects need undoing: stopping a timer, closing a connection. Return a **cleanup function** from the effect, and React calls it when the component disappears (or before the effect re-runs).
+If an effect starts something that needs stopping (a timer, a subscription, a connection), **return a cleanup function**. React runs it when the component is removed, and before the effect runs again:
 
-It's the same idea as Python's `try/finally` or a context manager's `__exit__`:
-
-```compare
-timer = start_timer(tick, every=1)
-try:
-    run_app()
-finally:
-    timer.cancel()   # always clean up
-////
+```jsx
 useEffect(() => {
   const id = setInterval(tick, 1000);
-  return () => clearInterval(id); // cleanup
+  return () => clearInterval(id);
 }, []);
 ```
 
-### Timers in JavaScript
+### Timers
 
-- `setTimeout(fn, ms)` runs `fn` once after `ms` milliseconds (like `threading.Timer`)
-- `setInterval(fn, ms)` runs `fn` every `ms` milliseconds
-- Both return an ID you pass to `clearTimeout` / `clearInterval`
+- `setTimeout(fn, ms)` runs `fn` once, after `ms` milliseconds.
+- `setInterval(fn, ms)` runs `fn` every `ms` milliseconds.
+- Both return an ID you pass to `clearTimeout` / `clearInterval`.
 
-> ⚠️ Inside a `setInterval` callback, use the **updater form** `setSeconds((previousSeconds) => previousSeconds + 1)`. The callback was created during the first render, so a plain `seconds` variable inside it would be stuck at `0` forever.
+> ⚠️ Inside a `setInterval` callback, use the **updater form**: `setSeconds((previousSeconds) => previousSeconds + 1)`. The callback was created during the first render, so a plain `seconds` variable inside it would be stuck at `0` forever.
 
 @@ instructions
 Build two components (App already renders both):

@@ -24,8 +24,8 @@ const fn = (exports, name) => {
 export const units = [
   {
     id: 'js',
-    title: 'JavaScript for Pythonistas',
-    blurb: 'Everything you need from JavaScript, explained by comparing it to the Python you already know.',
+    title: 'JavaScript Essentials',
+    blurb: 'The JavaScript you need for React: syntax, functions, arrays, objects, and the quirks that trip people up.',
     lessons: [
       {
         id: 'welcome',
@@ -88,7 +88,7 @@ export const units = [
           {
             name: 'Builds the receipt with a template literal',
             run: ({ source, fail }) => {
-              if (!source.includes('`') || !source.includes('${')) fail('Use a template literal: backticks with ${...} inside, the JS version of an f-string.');
+              if (!source.includes('`') || !source.includes('${')) fail('Use a template literal: backticks with ${...} inside.');
             },
           },
           {
@@ -240,13 +240,13 @@ export const units = [
         questions: [
           {
             q: 'Which declaration should you reach for **by default**?',
-            options: ['`var`', '`let`', '`const`', 'No keyword, like Python'],
+            options: ['`var`', '`let`', '`const`', 'No keyword needed'],
             answer: 2,
             explain: 'Use `const` unless you need to reassign the variable; then use `let`. Avoid `var`.',
           },
           {
-            q: 'What is the JavaScript version of `f"Hi {name}"`?',
-            options: ['`"Hi {name}"`', "`'Hi ${name}'`", '`` `Hi ${name}` ``', '`f"Hi {name}"`'],
+            q: 'Which line builds a string with the value of `name` inserted?',
+            options: ['`"Hi {name}"`', "`'Hi ${name}'`", '`` `Hi ${name}` ``', '`"Hi " name`'],
             answer: 2,
             explain: 'Template literals use backticks. `${...}` only works inside backticks.',
           },
@@ -257,28 +257,28 @@ export const units = [
             explain: '`==` converts types before comparing, so it is `true`. That is why you should use `===`, which gives `false` here.',
           },
           {
-            q: 'In Python, an empty list is falsy. What about `[]` in JavaScript?',
-            options: ['Falsy, same as Python', 'Truthy', 'It throws an error', 'It is `null`'],
+            q: 'Is an empty array `[]` truthy or falsy?',
+            options: ['Falsy', 'Truthy', 'It throws an error', 'It is `null`'],
             answer: 1,
-            explain: 'Empty arrays and empty objects are **truthy** in JS. Check `arr.length === 0` instead.',
+            explain: 'Empty arrays and empty objects are **truthy**. Check `list.length === 0` instead.',
           },
           {
-            q: 'Which is the JS equivalent of `[x * 2 for x in nums]`?',
-            options: ['`nums.filter(x => x * 2)`', '`nums.map(x => x * 2)`', '`for x in nums: x * 2`', '`nums.forEach(x => x * 2)`'],
+            q: 'Which gives a new array with every number in `numbers` doubled?',
+            options: ['`numbers.filter((number) => number * 2)`', '`numbers.map((number) => number * 2)`', '`numbers.reduce((number) => number * 2)`', '`numbers.forEach((number) => number * 2)`'],
             answer: 1,
             explain: '`.map()` builds a new array from the return values. `.forEach()` returns `undefined`.',
           },
           {
             q: 'What does a JS function return if it has no `return` statement?',
-            options: ['`None`', '`null`', '`undefined`', '`0`'],
-            answer: 2,
-            explain: 'It returns `undefined`, which is JavaScript\'s closest equivalent to Python\'s implicit `None`.',
+            options: ['`null`', '`undefined`', '`0`', '`false`'],
+            answer: 1,
+            explain: 'It returns `undefined`. `null` only appears when something sets it explicitly.',
           },
           {
             q: 'What does `{ ...user, age: 40 }` do?',
             options: ['Mutates `user`', 'Creates a new object copying `user`, with `age` set to 40', 'Throws a SyntaxError', 'Creates an array'],
             answer: 1,
-            explain: 'Spread copies all properties into a new object (like `{**user, "age": 40}` in Python). Later keys win.',
+            explain: 'Spread copies all properties into a new object, then `age: 40` overrides the copied value. Later keys win, and `user` is untouched.',
           },
         ],
       },
@@ -481,7 +481,7 @@ export const units = [
         questions: [
           {
             q: 'What does JSX like `<h1>Hi</h1>` turn into?',
-            options: ['An HTML string', 'A call like `React.createElement("h1", null, "Hi")`', 'A real DOM node immediately', 'A Python object'],
+            options: ['An HTML string', 'A call like `React.createElement("h1", null, "Hi")`', 'A real DOM node immediately', 'A JSON string'],
             answer: 1,
             explain: 'JSX is syntax sugar. A compiler turns each tag into a function call that returns a plain object describing the UI.',
           },
@@ -489,7 +489,7 @@ export const units = [
             q: 'Why does React use `className` instead of `class`?',
             options: ['It is shorter', '`class` is a reserved word in JavaScript', 'HTML does not support class', 'No reason'],
             answer: 1,
-            explain: 'JSX is JavaScript, and `class` is a keyword (just like in Python).',
+            explain: 'JSX is JavaScript, and `class` is a reserved word there (it declares classes).',
           },
           {
             q: 'Which component name will React treat as a component instead of an HTML tag?',
@@ -498,10 +498,10 @@ export const units = [
             explain: 'Components must start with a capital letter. Lowercase tags are treated as built-in HTML elements.',
           },
           {
-            q: 'Props are most like which Python feature?',
-            options: ['Global variables', 'Keyword arguments passed to a function', 'Class inheritance', 'Decorators'],
+            q: 'How does a component receive its props?',
+            options: ['As global variables', 'As one object, passed as the first argument', 'Through `useState`', 'As separate arguments, one per prop'],
             answer: 1,
-            explain: '`<Greeting name="Ada" />` calls `Greeting({ name: "Ada" })`, much like `greeting(name="Ada")`.',
+            explain: '`<Greeting name="Ada" />` calls `Greeting({ name: "Ada" })`, which is why components usually destructure their props.',
           },
           {
             q: 'What is wrong with `{count && <p>{count} messages</p>}` when `count` is 0?',

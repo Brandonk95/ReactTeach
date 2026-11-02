@@ -2,9 +2,9 @@
 
 Recap:
 
-- Template literals use **backticks** and `${...}`: `` `Hi ${name}` `` (Python's `f"Hi {name}"`)
+- Template literals use **backticks** and `${...}`: `` `Hi ${name}` ``
 - Comparisons give booleans: `age >= 65`
-- `.toUpperCase()` is Python's `.upper()`
+- `.toUpperCase()` returns an uppercase copy of a string
 
 @@ instructions
 Using the variables provided:

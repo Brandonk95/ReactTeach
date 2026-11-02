@@ -3,7 +3,7 @@
 Recap:
 
 - Props arrive as one object; destructure them: `function Badge({ label, color = "gray" })`
-- Default values work like Python's default arguments
+- Default values work like default function parameters: `{ color = "gray" }`
 - Whatever goes between a component's tags arrives as `children`
 
 @@ instructions

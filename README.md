@@ -1,6 +1,6 @@
-# ReactTeach: React for Python Developers
+# ReactTeach: JavaScript & React
 
-An interactive, CodeHS-style course that teaches JavaScript and React to people who already know Python. Every concept is shown side by side with its Python equivalent. You write code in a real in-browser editor, see a live preview, and automatic tests grade each exercise.
+An interactive, CodeHS-style course on JavaScript and React for people who already know how to program. Lessons skip the fundamentals and stick to what's specific to JavaScript and React. You write code in a real in-browser editor, see a live preview, and automatic tests grade each exercise.
 
 ## Running it
 
@@ -19,13 +19,13 @@ The output in `dist/` uses relative paths, so it works from any folder.
 
 ## What's inside
 
-- **4 units, 25 lessons:** JavaScript for Pythonistas → Thinking in Components → State & Interactivity → Effects, Data & Hooks, ending with a flashcards final project
+- **4 units, 25 lessons:** JavaScript Essentials → Thinking in Components → State & Interactivity → Effects, Data & Hooks, ending with a flashcards final project
 - **22 graded coding exercises** with 3–4 automatic tests each, progressive hints, and a solution you can reveal
 - **A practice step after every coding lesson** (22 total): a short exercise that applies the same idea in a new situation, with a quick recap and less scaffolding. A lesson only counts as complete once its practice is done. Prose and code live in `src/course/lessons/<id>.practice.md` and tests in `src/course/practice.js`.
 - **3 quizzes** with explanations and retries
 - **4 unit tests**, one at the end of each unit: open-ended programs (Gradebook, Product Catalog, Expense Tracker, User Directory) written from scratch against a grading checklist, with no hints. The sample solution unlocks after you pass. They're defined in `src/course/unitTests.js`.
 - **Playground** for free experimentation
-- **Python habit detector:** flags `print()`, `True`, `elif`, `len()`, `.append()` and similar, and suggests the JavaScript version
+- **Habit detector:** if you slip into Python syntax (`print()`, `True`, `elif`, `len()`, `.append()` and similar), the console suggests the JavaScript version
 - **Friendly error messages** that translate common JS/React errors (with line numbers)
 - **Infinite-loop protection**, a built-in **mock API** (`https://api.example.com/...`) for the data-fetching lessons, and a warning when a form forgets `preventDefault()`
 - Progress and code are **saved automatically** to `progress.json` in the project folder (see below)
@@ -40,11 +40,11 @@ To move to another device, just bring `progress.json` along with the project (it
 
 | Path | Role |
 |---|---|
-| `src/course/lessons/*.md` | Lesson prose, instructions, starter code, solution and hints, split by `@@ section` markers. ```` ```compare ```` blocks put Python and JS side by side (separated by a `////` line). |
+| `src/course/lessons/*.md` | Lesson prose, instructions, starter code, solution and hints, split by `@@ section` markers. Optional ```` ```compare ```` blocks show two languages side by side (separated by a `////` line). |
 | `src/course/units.js` | Course structure, tests, and quiz questions |
 | `src/sandbox/` | Runs inside the preview `<iframe>`: compiles JSX with Sucrase, runs student code, renders `<App />`, runs tests (`testkit.js`) |
 | `src/components/` | The course UI: workspace, editor (CodeMirror), quizzes, sidebar |
-| `src/lib/` | Markdown rendering, progress storage, Python-habit linting, error tips |
+| `src/lib/` | Markdown rendering, progress storage, habit linting, error tips |
 
 ### Adding a lesson
 

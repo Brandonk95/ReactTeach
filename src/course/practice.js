@@ -30,8 +30,8 @@ export const practice = {
   welcome: {
     tests: [
       {
-        name: 'The first line logged is "I know Python"',
-        run: ({ logs, expect }) => expect(logs[0], 'your first console.log').toBe('I know Python'),
+        name: 'The first line logged is "Ready to code"',
+        run: ({ logs, expect }) => expect(logs[0], 'your first console.log').toBe('Ready to code'),
       },
       {
         name: 'Logs the result of 10 * 4',
@@ -41,10 +41,10 @@ export const practice = {
         },
       },
       {
-        name: 'Logs "Python & JavaScript" by joining strings with +',
+        name: 'Logs "React & JavaScript" by joining strings with +',
         run: ({ logs, source, expect, fail }) => {
-          expect(logs, 'your logs').toContain('Python & JavaScript');
-          if (!/["'`]\s*\+/.test(source)) fail('Build it by joining strings with `+`, like Python.');
+          expect(logs, 'your logs').toContain('React & JavaScript');
+          if (!/["'`]\s*\+/.test(source)) fail('Build it by joining strings with `+`.');
         },
       },
     ],
@@ -105,7 +105,7 @@ export const practice = {
         name: '`shout` is "GUIDO", made with a string method',
         run: ({ exports, source, expect, fail }) => {
           expect(exports.shout, 'shout').toBe('GUIDO');
-          if (!source.includes('.toUpperCase()')) fail('Use `.toUpperCase()` (the JS version of `.upper()`).');
+          if (!source.includes('.toUpperCase()')) fail('Use the `.toUpperCase()` string method.');
         },
       },
     ],

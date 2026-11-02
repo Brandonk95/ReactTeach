@@ -1,20 +1,16 @@
 ## Lifting State Up
 
-Data in React flows **one way: down** from parents to children, through props. So what happens when two components need the **same** data?
-
-Example: a temperature converter where one component has the input and a sibling shows the result.
+Data flows **one way: down**, from parent to child through props. When two siblings need the same data, move the state to their **closest common parent**:
 
 ```
-App
-├── CelsiusInput   ← the user types here
-└── Fahrenheit     ← needs to know what they typed!
+App                ← owns the state
+├── CelsiusInput   ← changes it
+└── Fahrenheit     ← displays it
 ```
 
-Siblings can't talk to each other directly. The solution is to **lift the state up** to their closest common parent:
-
-1. The **parent** (`App`) owns the state.
+1. The parent owns the state.
 2. It passes the **value** down to whoever displays it.
-3. It passes a **setter function** down to whoever changes it.
+3. It passes a **setter (callback)** down to whoever changes it.
 
 ```jsx
 function App() {
@@ -28,7 +24,7 @@ function App() {
 }
 ```
 
-The child doesn't own any state. It just calls the function it was given:
+The child owns no state. It calls the function it was given, and the parent decides what to do with it:
 
 ```jsx
 function CelsiusInput({ celsius, onChange }) {
@@ -36,26 +32,7 @@ function CelsiusInput({ celsius, onChange }) {
 }
 ```
 
-This is like passing a **callback** in Python: the child says "something happened" and the parent decides what to do with it.
-
-```compare
-class CelsiusInput:
-    def __init__(self, on_change):
-        self.on_change = on_change
-
-    def user_typed(self, text):
-        self.on_change(float(text))
-////
-function CelsiusInput({ onChange }) {
-  return (
-    <input onChange={(event) =>
-      onChange(Number(event.target.value))
-    } />
-  );
-}
-```
-
-> `event.target.value` is always a **string**, even for `type="number"` inputs. Convert it with `Number(...)`, the JS version of `float(...)`.
+> `event.target.value` is always a **string**, even for `type="number"` inputs. Convert it with `Number(...)`.
 
 @@ instructions
 1. In `App`, create `celsius` state starting at `0`.

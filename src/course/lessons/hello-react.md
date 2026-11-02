@@ -1,18 +1,8 @@
 ## Your First Component
 
-You now know enough JavaScript to start React. 🎉
+React's core idea: **the UI is a function of your data.** You write functions that return a description of what the screen should show, and React works out how to update the real page when the data changes.
 
-### What is React?
-
-React is a JavaScript library for building user interfaces. Its big idea:
-
-> **Your UI is a function of your data.** You write functions that take data and *return a description of what the screen should look like*. React figures out how to update the real page.
-
-If you've used a Python templating language like Jinja, you've seen a similar idea, except in React the "template" is **just JavaScript**.
-
-### Components are functions
-
-A **component** is a function that returns some UI. Its name **must start with a capital letter**:
+A **component** is a function that returns UI. Its name must start with a **capital letter**:
 
 ```jsx
 function App() {
@@ -20,21 +10,17 @@ function App() {
 }
 ```
 
-That `<h1>Hello!</h1>` inside JavaScript is **JSX**: an HTML-like syntax that compiles into regular function calls:
+The HTML-like syntax is **JSX**. A compiler turns each tag into a function call:
 
-```compare
-# Conceptually, JSX is like calling
-# a function that builds a tree:
-element("h1", {}, "Hello!")
-////
+```jsx
 <h1>Hello!</h1>
-// compiles to:
+// becomes
 React.createElement("h1", null, "Hello!")
 ```
 
-### Curly braces = "run some JavaScript here"
+### `{ }` embeds JavaScript
 
-Inside JSX, `{ }` drops you back into JavaScript, like `{{ }}` in Jinja or `{}` in an f-string:
+Inside JSX, curly braces evaluate any expression:
 
 ```jsx
 function App() {
@@ -43,10 +29,10 @@ function App() {
 }
 ```
 
-### Rules of JSX
+### JSX rules
 
-1. **Return one root element.** Wrap siblings in a `<div>` or in a fragment, `<>...</>`.
-2. **Close every tag.** `<img />`, `<br />`, `<input />`.
+1. **Return one root element.** Wrap siblings in a `<div>`, or in a fragment `<>...</>` if you don't want an extra element.
+2. **Close every tag**, including `<img />`, `<br />` and `<input />`.
 3. Wrap multi-line JSX in **parentheses** after `return`.
 
 ```jsx
@@ -62,7 +48,7 @@ function App() {
 
 ### How the preview works
 
-In a real project, a file called `main.jsx` tells React where to draw your `App`. In this course, **we render `<App />` for you**: just define a function called `App` and press **Run** to see it in the **Preview** tab.
+In a real project, an entry file renders your root component: `createRoot(document.getElementById("root")).render(<App />)`. Here, **the course renders `<App />` for you**, so just define a function called `App` and press **Run**.
 
 @@ instructions
 Make `App` return:

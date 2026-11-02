@@ -1,7 +1,5 @@
 ## JSX: Expressions & Attributes
 
-### Showing data
-
 Anything inside `{ }` is a JavaScript **expression**: a variable, math, a function call, a property, a ternary...
 
 ```jsx
@@ -16,37 +14,34 @@ function App() {
 }
 ```
 
-> Statements like `if` or `for` **can't** go inside `{ }`, only expressions. (Ternaries and `.map()` are expressions, which is why React code uses them so much.)
+Statements like `if` or `for` **can't** go inside `{ }`, only expressions. That's why React code leans on ternaries and `.map()`.
 
-### Attributes (props) on HTML elements
+### Attributes
 
-JSX attributes look like HTML, with a few differences because JSX is really JavaScript:
+JSX attributes look like HTML, with a few differences because JSX is JavaScript:
 
 | HTML | JSX | Why |
 |---|---|---|
-| `class="card"` | `className="card"` | `class` is a reserved word in JS |
-| `for="email"` | `htmlFor="email"` | `for` is a reserved word too |
+| `class="card"` | `className="card"` | `class` is a reserved word |
+| `for="email"` | `htmlFor="email"` | `for` is a reserved word |
 | `onclick="..."` | `onClick={...}` | camelCase, and you pass a function |
-| `style="color: red"` | `style={{ color: "red" }}` | an object! |
+| `style="color: red"` | `style={{ color: "red" }}` | an object |
 
-Use quotes for fixed strings and `{ }` for JavaScript values:
+Use quotes for fixed strings and `{ }` for anything else:
 
 ```jsx
 <img src={user.photoUrl} alt="profile" width={100} />
 ```
 
-### The double-brace style
+### Inline styles
 
-`style` takes a JavaScript **object**, with camelCase CSS property names. The outer braces mean "JavaScript here"; the inner braces are the object literal:
+`style` takes an **object** with camelCase CSS property names. The outer braces mean "JavaScript here", and the inner braces are the object itself:
 
-```compare
-# Like passing a dict:
-style = {"color": "red", "font_size": 20}
-////
-<h1 style={{ color: "red", fontSize: 20 }}>
-  Hi
-</h1>
+```jsx
+<h1 style={{ color: "red", fontSize: 20 }}>Hi</h1>
 ```
+
+Numbers are treated as pixels (`fontSize: 20` means `20px`).
 
 @@ instructions
 Using the `user` object, make `App` render this structure:

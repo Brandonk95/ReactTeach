@@ -1,47 +1,40 @@
 ## 🏁 Final Project: Flashcards
 
-Time to put it all together! You'll build a flashcard study app that uses:
+Build a flashcard study app that combines components and props, state, conditional rendering and event handlers.
 
-- **Components & props** to split up the UI
-- **State** to track the current card and whether the answer is showing
-- **Conditional rendering** to hide and show the answer
-- **Event handlers** for the buttons
+### Minimum state
 
-### Planning it out
+Before writing code, ask **"what's the minimum state I need?"**
 
-A good React habit is to ask **"what is the minimum state I need?"** before writing code.
+- Which card is showing → `index` (a number)
+- Is the answer visible → `showAnswer` (a boolean)
 
-- Which card are we on? → `index` (a number)
-- Is the answer visible? → `showAnswer` (a boolean)
-
-Everything else can be **calculated** from those two plus the `cards` array:
+Everything else is **calculated** from those two plus the `cards` array:
 
 ```jsx
-const card = cards[index];                         // the current card
+const card = cards[index];
 const progress = `Card ${index + 1} of ${cards.length}`;
 ```
 
-> Don't store things in state that you can calculate. It's like storing both `width` and `area` on a Python object: they can fall out of sync.
+Don't store anything you can calculate. Duplicated state can fall out of sync.
 
 ### Wrapping around
 
-To go from the last card back to the first, use the remainder operator, just like Python:
+Use the remainder operator to go from the last card back to the first:
 
-```compare
-index = (index + 1) % len(cards)
-////
+```jsx
 setIndex((index + 1) % cards.length);
 ```
 
-### Ideas for going further
+### Going further
 
-Once the tests pass, keep building! Some ideas:
+Once the tests pass, try adding:
 
 - A **Previous** button
-- Track how many you got right with "Got it" / "Missed it" buttons
-- Shuffle the cards
-- Let the user add their own cards with a form
-- Save the cards to `localStorage` with a `useEffect`
+- "Got it" / "Missed it" scoring
+- Shuffling the cards
+- A form for adding your own cards
+- Saving the cards to `localStorage` with a `useEffect`
 
 @@ instructions
 Build the flashcard app in `App` using the `cards` array:

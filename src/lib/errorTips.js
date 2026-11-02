@@ -1,4 +1,4 @@
-// Friendly explanations for common errors, aimed at Python developers.
+// Friendly explanations for common errors, including slips from other languages.
 const PY_NAMES = {
   print: 'JavaScript uses `console.log(...)` instead of `print(...)`.',
   len: 'Use `.length` instead of `len(...)`, e.g. `items.length`.',
@@ -26,7 +26,7 @@ export function errorTip(message = '') {
   if (/Unterminated regular expression/.test(message)) return 'This usually means two JSX elements are side by side without a parent, or a tag is not closed. Wrap siblings in `<div>...</div>` or `<>...</>`, and close every tag.';
   if (/Unexpected token|Unexpected character|Unterminated/.test(message)) return 'There is a syntax error here. Look for a missing `)`, `}`, `]`, comma or quote near this line.';
   if ((m = /Cannot read properties of (undefined|null) \(reading '(.+)'\)/.exec(message))) {
-    return `You tried to read \`.${m[2]}\` from something that is \`${m[1]}\`. Check that the value before \`.${m[2]}\` actually exists (like Python's \`AttributeError: 'NoneType' object has no attribute\`).`;
+    return `You tried to read \`.${m[2]}\` from something that is \`${m[1]}\`. Check that the value before \`.${m[2]}\` actually exists, or guard it with optional chaining: \`value?.${m[2]}\`.`;
   }
   if ((m = /(\S+) is not a function/.exec(message))) return `\`${m[1]}\` is not a function, so you can't call it with \`()\`. Check the name, and whether it was defined or returned correctly.`;
   if (/Reduce of empty array with no initial value/.test(message)) return 'Give `.reduce()` a starting value as its second argument, like `arr.reduce((sum, n) => sum + n, 0)`, so it also works on an empty array.';

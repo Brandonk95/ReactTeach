@@ -1,6 +1,6 @@
 ## Forms & Controlled Inputs
 
-In React, the usual way to handle an input is to make it **controlled**: React state is the single source of truth for what's in the box.
+The standard way to handle an input is to make it **controlled**: state holds the value, and the input displays it.
 
 ```jsx
 function NameField() {
@@ -8,41 +8,27 @@ function NameField() {
 
   return (
     <input
-      value={name}                               // state → input
-      onChange={(event) => setName(event.target.value)}  // input → state
+      value={name}                                        // state → input
+      onChange={(event) => setName(event.target.value)}   // input → state
     />
   );
 }
 ```
 
-The loop goes like this:
+On each keystroke, `onChange` fires, `setName` updates state, React re-renders, and the input shows the new `value`.
 
-1. You type a letter.
-2. `onChange` fires; `event.target.value` is the input's new text.
-3. `setName(...)` updates state, and React re-renders.
-4. The input shows `value={name}`, the new state.
-
-Because the text lives in state, you can use it anywhere else in the component: show it, validate it, transform it.
+Because the text lives in state, you can use it anywhere in the component:
 
 ```jsx
 <p>{name.length} characters</p>
 {name.length > 20 && <p className="error">Too long!</p>}
 ```
 
-### Handling form submission
+### Submitting
 
-Wrap inputs in a `<form>` and handle `onSubmit`. **Always call `event.preventDefault()`**: by default, browsers submit forms by **reloading the page**, which wipes your React app's state.
+Wrap inputs in a `<form>` and handle `onSubmit`. **Always call `event.preventDefault()`**: by default the browser submits a form by **reloading the page**, which wipes your app's state.
 
-```compare
-# Flask: the browser POSTs and the
-# server sends back a new page
-@app.post("/signup")
-def signup():
-    name = request.form["name"]
-    ...
-////
-// React: handle it in the browser,
-// no page reload
+```jsx
 function handleSubmit(event) {
   event.preventDefault();
   console.log("Signing up", name);
@@ -51,14 +37,14 @@ function handleSubmit(event) {
 <form onSubmit={handleSubmit}>...</form>
 ```
 
-### The `||` default trick
+A `<button>` inside a form submits it when clicked, and so does pressing Enter in an input.
 
-`a || b` returns `a` if it's truthy, otherwise `b`. It's handy for fallbacks, and Python's `or` works the same way:
+### Fallbacks with `||`
 
-```compare
-display = name or "anonymous"
-////
-const display = name || "anonymous";
+`a || b` gives `a` if it's truthy, otherwise `b`:
+
+```jsx
+const displayName = name || "anonymous";
 ```
 
 @@ instructions

@@ -4,7 +4,7 @@ Recap:
 
 - `if (...) { } else if (...) { } else { }` (with parentheses and braces)
 - Always `===`, never `==`
-- Ternary: `cond ? a : b` (Python's `a if cond else b`)
+- Ternary: `condition ? valueIfTrue : valueIfFalse`
 
 @@ instructions
 1. Write the classic `fizzbuzz(number)`:
@@ -39,4 +39,4 @@ for (let count = 1; count <= 15; count++) {
 Check the "both" case first (`number % 15 === 0`), or the `% 3` branch will catch 15 before you get there.
 
 @@ hint
-Turn a number into a string with `String(number)`, the JS version of `str(number)`.
+Turn a number into a string with `String(number)`.

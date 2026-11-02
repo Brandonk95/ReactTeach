@@ -1,15 +1,6 @@
-## Conditionals & Truthiness
+## Conditionals & Equality
 
-### if / else if / else
-
-```compare
-if temp > 30:
-    print("hot")
-elif temp > 15:
-    print("nice")
-else:
-    print("cold")
-////
+```js
 if (temp > 30) {
   console.log("hot");
 } else if (temp > 15) {
@@ -19,57 +10,38 @@ if (temp > 30) {
 }
 ```
 
-Parentheses around the condition are **required**, `elif` becomes `else if`, and blocks use `{ }`.
+The condition needs parentheses. Logical operators are `&&`, `||` and `!`.
 
-### `and`, `or`, `not`
+### Always use `===`
 
-| Python | JavaScript |
-|---|---|
-| `and` | `&&` |
-| `or` | `\|\|` |
-| `not` | `!` |
-
-### ⚠️ Use `===`, not `==`
-
-JavaScript's `==` converts types before comparing, which leads to weird results. **Always use `===` (and `!==`)**. They behave like Python's `==` and `!=`.
+`==` converts types before comparing, which gives surprising results. Use `===` and `!==`:
 
 ```js
 "5" == 5    // true  😱
 "5" === 5   // false ✅
 0 == ""     // true  😱
-0 === ""    // false ✅
 ```
 
 ### The ternary operator
 
-Python's one-line conditional is `a if cond else b`. JavaScript puts the condition first:
+`condition ? valueIfTrue : valueIfFalse` is an expression, so you can use it anywhere a value fits. You'll use it constantly in React:
 
-```compare
-label = "adult" if age >= 18 else "minor"
-////
+```js
 const label = age >= 18 ? "adult" : "minor";
 ```
 
-You'll use this **constantly** in React to decide what to show.
+### Truthiness
 
-### Truthiness: mostly the same, one big difference
+The falsy values are `false`, `0`, `""`, `null`, `undefined` and `NaN`. **Everything else is truthy, including `[]` and `{}`.** To check for an empty array, use `list.length === 0`.
 
-Falsy values in JavaScript: `false`, `0`, `""`, `null`, `undefined`, `NaN`. Everything else is truthy, **including empty arrays and objects**:
+`&&` and `||` return one of their operands, not necessarily a boolean:
 
-```compare
-if []:            # falsy in Python
-    print("never")
-////
-if ([]) {         // TRUTHY in JS!
-  console.log("this runs!");
-}
-// Check the length instead:
-if (list.length === 0) { /* ... */ }
+```js
+"" || "default"   // "default"
+user && user.name // user.name, or undefined if there's no user
 ```
 
-### The remainder operator
-
-`%` works just like Python: `7 % 2` is `1`.
+`%` is the remainder operator: `7 % 2` is `1`.
 
 @@ instructions
 1. Write `grade(score)` that returns:

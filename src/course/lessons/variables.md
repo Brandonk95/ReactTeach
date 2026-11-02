@@ -1,61 +1,26 @@
 ## Variables: `let` and `const`
 
-In Python you just write `name = value`. JavaScript makes you **declare** a variable the first time, and you choose how:
-
-| Keyword | Can be reassigned? | When to use |
-|---|---|---|
-| `const` | ❌ No | **Default choice.** Most variables never change. |
-| `let` | ✅ Yes | Counters, totals, anything you reassign. |
-| `var` | ✅ Yes | Old-style, with confusing scoping rules. **Avoid it.** |
-
-```compare
-city = "Paris"
-visits = 1
-visits += 1
-# Python has no real constants;
-# CAPS is just a convention
-MAX_USERS = 100
-////
-const city = "Paris";
-let visits = 1;
-visits += 1;   // or visits++
-// const is enforced by the language
-const MAX_USERS = 100;
-```
-
-If you try to reassign a `const`, JavaScript stops you:
+Variables must be declared before use:
 
 ```js
-const city = "Paris";
-city = "Rome"; // ❌ TypeError: Assignment to constant variable.
+const city = "Paris"; // can't be reassigned
+let visits = 1;       // can be reassigned
+visits += 1;          // or visits++
 ```
 
-### Naming conventions
+- Use **`const` by default**, and `let` only when you reassign.
+- Avoid `var`. It's the legacy keyword, with function scope and hoisting quirks.
+- `const` prevents **reassignment**, not mutation. `const list = []; list.push(1);` is fine.
+- `let` and `const` are **block-scoped**: declared inside `{ }`, they don't exist outside it.
 
-Python uses `snake_case`; JavaScript uses **`camelCase`** for variables and functions:
-
-```compare
-first_name = "Ada"
-total_price = 9.99
-////
-const firstName = "Ada";
-const totalPrice = 9.99;
-```
-
-### Block scope
-
-`let` and `const` only exist inside the `{ }` block where they're declared. Python's `if` and `for` don't create a new scope, but JavaScript's blocks do:
-
-```compare
-if True:
-    message = "hi"
-print(message)  # works in Python
-////
+```js
 if (true) {
   const message = "hi";
 }
-console.log(message); // ❌ ReferenceError
+console.log(message); // ReferenceError
 ```
+
+**Naming conventions:** `camelCase` for variables and functions, `PascalCase` for components and classes, `UPPER_SNAKE_CASE` for fixed constants.
 
 @@ instructions
 1. Create a **constant** named `city` with the value `"Paris"`.

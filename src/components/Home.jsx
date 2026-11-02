@@ -38,10 +38,10 @@ export function Home({ progress }) {
     <div className="home scroll">
       <div className="home-inner">
         <header className="hero">
-          <div className="hero-badge">🐍 → ⚛️</div>
-          <h1>React for Python Developers</h1>
+          <div className="hero-badge">JS → ⚛️</div>
+          <h1>JavaScript &amp; React</h1>
           <p className="hero-sub">
-            You already know how to program. This interactive course teaches you JavaScript and React by comparing everything to the Python you know. Read a short lesson, write real code in the browser, and get instant feedback from automatic tests.
+            For people who already know how to program. Short lessons on what's specific to JavaScript and React, real code in the browser, and instant feedback from automatic tests.
           </p>
           <div className="hero-actions">
             {resume ? (
@@ -67,8 +67,8 @@ export function Home({ progress }) {
 
         <div className="features">
           <div>
-            <strong>🐍 Python side-by-side</strong>
-            <span>Every concept is shown next to its Python equivalent.</span>
+            <strong>⚡ Straight to the point</strong>
+            <span>No beginner padding: just the syntax, patterns and gotchas you need.</span>
           </div>
           <div>
             <strong>💻 Code in the browser</strong>

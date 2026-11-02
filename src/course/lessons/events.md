@@ -1,6 +1,6 @@
 ## Handling Events
 
-To respond to a click, pass a **function** to the `onClick` prop:
+Pass a **function** to an event prop like `onClick`:
 
 ```jsx
 function App() {
@@ -12,47 +12,27 @@ function App() {
 }
 ```
 
-If you've used Tkinter, this is the same idea as `Button(command=handle_click)`:
-
-```compare
-def handle_click():
-    print("clicked!")
-
-Button(root, text="Click me",
-       command=handle_click)
-////
-function handleClick() {
-  console.log("clicked!");
-}
-
-<button onClick={handleClick}>
-  Click me
-</button>
-```
-
-### ⚠️ The #1 beginner bug: calling instead of passing
+### ⚠️ Pass the function, don't call it
 
 ```jsx
-<button onClick={handleClick}>   ✅ passes the function; React calls it on click
-<button onClick={handleClick()}> ❌ calls it RIGHT NOW, during render
+<button onClick={handleClick}>   ✅ React calls it on click
+<button onClick={handleClick()}> ❌ calls it immediately, during render
 ```
 
-With `handleClick()`, the function runs every time the component renders, and the *return value* (`undefined`) becomes the click handler. In Tkinter, `command=handle_click()` has exactly the same bug!
+With `handleClick()`, the function runs on every render, and its *return value* (`undefined`) becomes the click handler.
 
 ### Inline arrow functions
 
-For short handlers, or when you need to pass arguments, use an arrow function:
+For short handlers, or when you need to pass arguments, wrap the call in an arrow function:
 
 ```jsx
 <button onClick={() => console.log("hi")}>Say hi</button>
 <button onClick={() => deleteItem(item.id)}>Delete</button>
 ```
 
-The arrow function *wraps* the call so it only runs on click.
-
 ### The event object
 
-Handlers receive an event object with details about what happened:
+Handlers receive an event object describing what happened:
 
 ```jsx
 <input onChange={(event) => console.log(event.target.value)} />

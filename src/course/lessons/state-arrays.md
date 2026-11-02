@@ -1,42 +1,31 @@
 ## Lists in State: A Todo App
 
-Here's the most important rule of React state, and the one Python developers trip over most:
+The most important rule of React state:
 
 > **Never mutate state. Always replace it with a new value.**
 
-In Python, you'd happily do `todos.append(item)`. In React, that's a bug:
-
 ```jsx
-todos.push(item);   // ❌ mutates the existing array
-setTodos(todos);    // React sees the SAME array and may skip the re-render
+todos.push(newTodo);  // ❌ changes the existing array
+setTodos(todos);      // React sees the SAME array and may skip the re-render
 ```
 
-React decides whether to re-render by checking if the new value **is the same object** as the old one (like Python's `is`). If you mutate the array and pass it back, it's still the same object.
+React decides whether to re-render by checking whether the new value **is the same object** as the old one (`Object.is`). A mutated array is still the same object.
 
 ### Immutable update recipes
 
 | Goal | ❌ Mutating | ✅ New array |
 |---|---|---|
 | Add | `todos.push(newTodo)` | `[...todos, newTodo]` |
-| Remove | `todos.splice(i, 1)` | `todos.filter((t) => t.id !== id)` |
-| Change one | `todos[i].done = true` | `todos.map((t) => t.id === id ? { ...t, done: true } : t)` |
-
-```compare
-# Python equivalents that build NEW lists:
-todos = todos + [item]
-todos = [t for t in todos if t["id"] != id]
-////
-setTodos([...todos, item]);
-setTodos(todos.filter((t) => t.id !== id));
-```
+| Remove | `todos.splice(index, 1)` | `todos.filter((todo) => todo.id !== id)` |
+| Change one | `todos[index].done = true` | `todos.map((todo) => todo.id === id ? { ...todo, done: true } : todo)` |
 
 ### Unique IDs
 
-Each todo needs a stable `id` for its `key`. `crypto.randomUUID()` (built into browsers) works well, or `Date.now()` for a simple app.
+Each item needs a stable `id` for its `key`. `crypto.randomUUID()` (built into browsers) works well, or `Date.now()` for a simple app.
 
-### Trimming input
+### Ignoring blank input
 
-`"  hi  ".trim()` → `"hi"`, which is Python's `.strip()`. Use it to ignore blank entries:
+`.trim()` removes surrounding whitespace:
 
 ```jsx
 if (newTodoText.trim() === "") return;

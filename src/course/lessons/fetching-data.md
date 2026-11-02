@@ -1,36 +1,35 @@
 ## Fetching Data
 
-Most apps load data from a server. In JavaScript, anything that takes time (network, timers, files) is **asynchronous**: it returns a **Promise**, a placeholder for a value that will arrive later.
+Anything slow (network requests, timers) is **asynchronous** in JavaScript. It returns a **Promise**: a placeholder for a value that arrives later. `async`/`await` lets you write it like normal sequential code:
 
-### async / await: you already know this!
-
-If you've used Python's `asyncio`, JavaScript's `async`/`await` will feel familiar:
-
-```compare
-import aiohttp
-
-async def get_users():
-    async with aiohttp.ClientSession() as s:
-        resp = await s.get(URL)
-        return await resp.json()
-////
+```js
 async function getUsers() {
-  const resp = await fetch(URL);
-  return await resp.json();
+  const response = await fetch("https://api.example.com/users");
+  if (!response.ok) throw new Error(`Server returned ${response.status}`);
+  return await response.json();
 }
 ```
 
-- `fetch(url)` is built into the browser (think `requests.get`, but async).
-- `await resp.json()` parses the body (JSON parsing is async too).
-- `resp.ok` is `true` for 2xx status codes.
+- `fetch(url)` is built into the browser and resolves to a response.
+- `await response.json()` parses the body (also asynchronous).
+- `response.ok` is `true` for 2xx status codes. `fetch` does **not** throw on 404 or 500, so check it yourself.
+- An `async` function always returns a Promise.
+
+### Errors
+
+```js
+try {
+  const data = await fetchData();
+} catch (fetchError) {
+  setError(fetchError.message);
+} finally {
+  setLoading(false);
+}
+```
 
 ### Fetching in a component
 
-Fetching is a side effect, so it goes in `useEffect`. The pattern:
-
-1. Keep the data in state (start with an empty value).
-2. Start the fetch in an effect with `[]`, so it runs once on mount.
-3. When data arrives, put it in state, and React re-renders.
+Fetching is a side effect, so it goes in `useEffect`:
 
 ```jsx
 function UserList() {
@@ -39,9 +38,8 @@ function UserList() {
 
   useEffect(() => {
     async function load() {
-      const resp = await fetch("https://api.example.com/users");
-      const data = await resp.json();
-      setUsers(data);
+      const response = await fetch("https://api.example.com/users");
+      setUsers(await response.json());
       setLoading(false);
     }
     load();
@@ -52,28 +50,11 @@ function UserList() {
 }
 ```
 
-> Why the inner `load` function? The effect function itself **can't** be `async`, because React expects it to return either nothing or a cleanup function, not a Promise.
-
-### Handling errors
-
-Use `try/catch`, which is the JavaScript `try/except`:
-
-```compare
-try:
-    data = await fetch_data()
-except Exception as fetch_error:
-    error = str(fetch_error)
-////
-try {
-  const data = await fetchData();
-} catch (fetchError) {
-  setError(fetchError.message);
-}
-```
+The effect function itself **can't** be `async`, because React expects it to return nothing or a cleanup function, not a Promise. So define an inner `async` function and call it.
 
 ### 🧪 The practice API
 
-This course has a fake API built in, so you'll get predictable results:
+The course has a fake API built in, so results are predictable:
 
 | URL | Returns |
 |---|---|

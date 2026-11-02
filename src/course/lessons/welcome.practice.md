@@ -2,24 +2,24 @@
 
 Quick recap before you try it from memory:
 
-- `console.log(...)` is `print(...)`
-- Math works the same: `+ - * /`
-- Strings join with `+`, just like Python: `"a" + "b"` is `"ab"`
+- `console.log(...)` prints to the console
+- Arithmetic: `+ - * / % **`
+- Strings join with `+`: `"a" + "b"` is `"ab"`
 
 @@ instructions
 Write three `console.log` lines:
 
-1. The text `I know Python`
+1. The text `Ready to code`
 2. The result of `10 * 4` (let JavaScript calculate it)
-3. The text `Python & JavaScript`, built by joining `"Python"`, `" & "` and `"JavaScript"` with `+`
+3. The text `React & JavaScript`, built by joining `"React"`, `" & "` and `"JavaScript"` with `+`
 
 @@ starter
 
 
 @@ solution
-console.log("I know Python");
+console.log("Ready to code");
 console.log(10 * 4);
-console.log("Python" + " & " + "JavaScript");
+console.log("React" + " & " + "JavaScript");
 
 @@ hint
-Joining strings: `console.log("Python" + " & " + "JavaScript");`
+Joining strings: `console.log("React" + " & " + "JavaScript");`

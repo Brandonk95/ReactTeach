@@ -16,7 +16,7 @@ Before writing any code, decide:
 ### Useful reminders
 
 - `event.target.value` is always a **string**. Convert amounts with `Number(...)`.
-- `"  hi ".trim()` removes surrounding spaces, like Python's `.strip()`.
+- `"  hi ".trim()` removes surrounding spaces.
 - `.reduce((sum, expense) => sum + expense.amount, 0)` adds up a field across an array.
 
 @@ instructions

@@ -1,8 +1,6 @@
 ## Composing Components
 
-Real apps are built from many small components, just like Python programs are built from many small functions.
-
-Once you define a component, you use it **like an HTML tag**:
+Apps are built from many small components. Once a component is defined, use it **like an HTML tag**:
 
 ```jsx
 function Avatar() {
@@ -19,40 +17,20 @@ function Profile() {
 }
 ```
 
-```compare
-# The Python way of thinking:
-def avatar():
-    return '<img ...>'
+### Capitalization matters
 
-def profile():
-    return f"<div>{avatar()}<h2>Ada</h2></div>"
-////
-// The React way:
-function Avatar() {
-  return <img ... />;
-}
+React decides "HTML tag or component?" by the first letter:
 
-function Profile() {
-  return <div><Avatar /><h2>Ada</h2></div>;
-}
-```
+- `<header>` is the built-in HTML element
+- `<Header>` is **your** `Header` function
 
-### Capital letters matter
+### Define components at the top level
 
-React decides "HTML tag or component?" based on the first letter:
+Don't define a component inside another component's function. It works, but React treats it as a brand-new component on every render, which resets its state and slows things down.
 
-- `<header>` → the built-in HTML `<header>` element
-- `<Header>` → **your** `Header` function
+### The component tree
 
-That's why component names must be **PascalCase**.
-
-### Don't define components inside components
-
-Always define components at the **top level** of your file, not inside another component's function. It works, but it causes subtle bugs and slow re-renders.
-
-### Thinking in a tree
-
-Every React app is a **tree** of components:
+Every app is a tree of components:
 
 ```
 App

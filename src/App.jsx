@@ -41,7 +41,7 @@ export default function App() {
 
   useEffect(() => {
     if (lesson && lesson.id !== 'playground') visit(lesson.id);
-    document.title = lesson ? `${lesson.title} · ReactTeach` : 'ReactTeach: React for Python Developers';
+    document.title = lesson ? `${lesson.title} · ReactTeach` : 'ReactTeach: JavaScript & React';
   }, [lesson, visit]);
 
   return (

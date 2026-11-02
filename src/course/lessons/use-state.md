@@ -1,6 +1,6 @@
 ## State with `useState`
 
-Let's build a counter. This seems like it should work:
+This counter looks like it should work, but clicking does nothing:
 
 ```jsx
 function Counter() {
@@ -9,14 +9,14 @@ function Counter() {
 }
 ```
 
-It doesn't. Clicking does nothing. Two problems:
+There are two problems:
 
-1. Changing a local variable **doesn't tell React** anything changed, so it never re-draws.
-2. Even if it did re-draw, React re-runs `Counter()` from the top, so `count` would be `0` again. Local variables don't survive between renders.
+1. Changing a local variable doesn't tell React anything changed, so nothing re-renders.
+2. Every render calls `Counter()` again from the top, so `count` would be back to `0` anyway.
 
-### Enter `useState`
+### `useState`
 
-`useState` gives a component **memory** that survives re-renders, plus a function to update it that tells React to re-render:
+`useState` gives a component a value that **survives re-renders**, plus a setter that **triggers a re-render**:
 
 ```jsx
 import { useState } from "react";
@@ -27,52 +27,22 @@ function Counter() {
 }
 ```
 
-- `useState(0)`: the **initial** value
-- It returns a **pair**, which we destructure: the current value and a setter
-- Calling `setCount(newValue)` stores the new value **and re-renders** the component
+- `useState(0)` sets the **initial** value.
+- It returns a pair, `[value, setter]`, which you destructure.
+- Calling `setCount(next)` stores the new value and re-renders the component.
 
-### The mental model
-
-Compare it to a Python class that redraws itself whenever its data changes:
-
-```compare
-class Counter:
-    def __init__(self):
-        self.count = 0      # state
-
-    def increment(self):
-        self.count += 1
-        self.render()       # must redraw!
-
-    def render(self):
-        draw(f"Count: {self.count}")
-////
-function Counter() {
-  // state lives in React, not in a local
-  const [count, setCount] = useState(0);
-
-  // calling the setter = update + re-render
-  const increment = () => setCount(count + 1);
-
-  // the whole function IS render()
-  return <button onClick={increment}>
-    Count: {count}
-  </button>;
-}
-```
-
-Every render is a **snapshot**: the function runs again with the latest state, and returns fresh JSX.
+Each render is a snapshot: the function runs again with the latest state and returns fresh JSX.
 
 ### Rules of hooks
 
-Functions starting with `use` are called **hooks**. Two rules:
+Functions starting with `use` are **hooks**:
 
-1. Only call them at the **top level** of a component, never inside `if`, loops or nested functions.
-2. Only call them from **components** (or your own custom hooks).
+1. Call them only at the **top level** of a component: not inside `if`s, loops or nested functions.
+2. Call them only from components, or from your own custom hooks.
 
 ### Updating from the previous value
 
-When the new state depends on the old one, you can pass a function:
+When the next value depends on the current one, pass a function:
 
 ```jsx
 setCount((previousCount) => previousCount + 1); // always uses the latest value

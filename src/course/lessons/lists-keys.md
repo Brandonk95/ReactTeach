@@ -1,18 +1,10 @@
 ## Rendering Lists
 
-Remember `.map()`? Here's where it pays off. To render a list, **map your data to JSX elements**:
-
-```compare
-fruits = ["apple", "banana"]
-items = [f"<li>{f}</li>" for f in fruits]
-////
-const fruits = ["apple", "banana"];
-const items = fruits.map((f) => <li key={f}>{f}</li>);
-```
-
-You can put the `.map()` right inside your JSX, since it's an expression:
+To render a list, **map your data to JSX elements**. `.map()` is an expression, so it goes right inside the JSX:
 
 ```jsx
+const fruits = ["apple", "banana", "cherry"];
+
 function FruitList() {
   return (
     <ul>
@@ -24,31 +16,27 @@ function FruitList() {
 }
 ```
 
-> Notice `(fruit) => ( ... )` uses **parentheses**, so the JSX is returned automatically. If you use `{ }` braces you need to write `return`.
+`(fruit) => ( ... )` uses **parentheses**, so the JSX is returned automatically. With `{ }` braces you'd need `return`.
 
-### Why `key`?
+### Keys
 
-When a list changes (an item is added, removed or reordered), React needs to know **which item is which** so it can update the page efficiently and keep state attached to the right item. The `key` prop is an item's unique ID.
+When a list changes (items added, removed or reordered), React uses each item's `key` to know **which item is which**. That keeps updates efficient and keeps state attached to the right item.
 
 - ✅ Use a stable ID from your data: `key={task.id}`
-- ⚠️ Avoid the array index (`key={i}`) if items can be reordered or removed
+- ⚠️ Avoid the array index (`key={index}`) if items can be reordered or removed
 - Keys only need to be unique **among siblings**
 
-Without keys, React prints a warning in the console.
+Without keys, React warns in the console.
 
-### Filtering before rendering
-
-Chain `.filter()` and `.map()` to render only some items:
+### Filter, then map
 
 ```jsx
 {tasks
-  .filter((t) => !t.done)
-  .map((t) => <li key={t.id}>{t.text}</li>)}
+  .filter((task) => !task.done)
+  .map((task) => <li key={task.id}>{task.text}</li>)}
 ```
 
 ### Conditional classes
-
-Use a ternary to decide a `className`:
 
 ```jsx
 <li className={task.done ? "done" : ""}>...</li>

@@ -1,51 +1,39 @@
 ## Props
 
-Components become reusable when you can pass them data. Those inputs are called **props** (short for "properties"), and they work a lot like **keyword arguments** in Python.
+**Props** are a component's inputs. React gathers the attributes into one object and passes it as the first argument, so you usually destructure it:
 
-```compare
-def greeting(name, excited=False):
-    end = "!" if excited else "."
-    return f"Hello, {name}{end}"
-
-greeting(name="Ada", excited=True)
-////
+```jsx
 function Greeting({ name, excited = false }) {
-  const end = excited ? "!" : ".";
-  return <p>Hello, {name}{end}</p>;
+  const ending = excited ? "!" : ".";
+  return <p>Hello, {name}{ending}</p>;
 }
 
 <Greeting name="Ada" excited={true} />
 ```
 
-React gathers all the attributes into **one object** and passes it as the first argument. That's why we **destructure** it with `{ name, excited }`. It's the same as:
+Without destructuring, it's `function Greeting(props) { ... props.name ... }`.
 
-```jsx
-function Greeting(props) {
-  return <p>Hello, {props.name}</p>;
-}
-```
-
-### Passing different types
+### Passing values
 
 ```jsx
 <Product
   title="Keyboard"        // string: quotes
-  price={49.99}           // number: braces
-  inStock={true}          // boolean: braces
-  tags={["usb", "rgb"]}   // array: braces
-  onBuy={handleBuy}       // function: braces
+  price={49.99}           // anything else: braces
+  inStock={true}
+  tags={["usb", "rgb"]}
+  onBuy={handleBuy}       // functions too
 />
 ```
 
-A prop with **no value** is shorthand for `true`: `<Greeting name="Ada" excited />`.
+A prop with **no value** is `true`: `<Greeting name="Ada" excited />`.
 
 ### Props are read-only
 
-A component must **never change its own props**, just like you shouldn't mutate a function's arguments to communicate with the caller. Data flows **down**, from parent to child.
+A component must never change its own props. Data flows **down**, from parent to child.
 
-### The special `children` prop
+### `children`
 
-Whatever you put *between* a component's tags arrives as `children`:
+Whatever goes *between* a component's tags arrives as the `children` prop:
 
 ```jsx
 function Card({ children }) {
