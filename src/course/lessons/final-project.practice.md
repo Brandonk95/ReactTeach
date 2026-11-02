@@ -1,14 +1,18 @@
 ## 🔁 Practice: Scored Flashcards
 
-Now rebuild the flashcards as a self-check quiz that keeps score. Before coding, decide on the **minimum state**. You need the current card and the number you got right. (The number answered so far is just the card index!)
+Rebuild the flashcards as a self-check quiz that keeps score. As before, start from the **minimum state**: the current card and how many you got right.
 
 @@ instructions
-Using the same `cards`:
-
-1. Show the current question in an `<h2>`.
-2. Two buttons, **Got it** and **Missed it**. Both move to the next card; **Got it** also adds one to the score.
-3. `<p className="score">Score: 1 / 2</p>`: correct answers so far / cards answered so far. It starts as `Score: 0 / 0`.
-4. After the last card, show `<p className="done">Finished! You got 2 of 3</p>` **instead of** the question and buttons.
+1. **State:** `index` (which card, starting `0`) and `correct` (how many you got, starting `0`). The number answered so far is just `index`, so it doesn't need its own state.
+2. **`answer(gotIt)`**: if `gotIt` is true, add 1 to `correct`. Either way, add 1 to `index`.
+3. **When every card is answered** (`index === cards.length`), return **only**:
+   `<p className="done">Finished! You got {correct} of {cards.length}</p>`
+   For example: `Finished! You got 2 of 3`.
+4. **Otherwise**, render:
+   - the current question in an `<h2>`: `cards[index].question`
+   - a **Got it** button that calls `answer(true)`
+   - a **Missed it** button that calls `answer(false)`
+   - `<p className="score">Score: {correct} / {index}</p>`, which starts as `Score: 0 / 0`
 
 @@ starter
 import { useState } from "react";
@@ -18,6 +22,22 @@ const cards = [
   { question: "Which hook stores state?", answer: "useState" },
   { question: "What prop helps React track list items?", answer: "key" },
 ];
+
+function App() {
+  // 1. index and correct state, both starting at 0
+
+  function answer(gotIt) {
+    // 2. add 1 to correct if gotIt, then move to the next card
+  }
+
+  // 3. if every card has been answered, return the "Finished!" paragraph
+
+  return (
+    <div className="card">
+      {/* 4. question <h2>, "Got it" and "Missed it" buttons, score paragraph */}
+    </div>
+  );
+}
 
 @@ solution
 import { useState } from "react";

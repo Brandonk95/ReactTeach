@@ -7,13 +7,26 @@ Recap:
 - Handlers receive an event; `event.target.value` is an input's text
 
 @@ instructions
-1. Render an `<input>` whose `onChange` logs what's in the box (`event.target.value`).
-2. Write a function `greet(name)` that logs `` `Hello, ${name}` ``.
-3. Render a **Greet** button that calls `greet("Ada")` when clicked. Nothing should be logged until you click!
+1. Give the `<input>` an `onChange` handler that logs what's in the box: `(event) => console.log(event.target.value)`. Typing `abc` all at once should log `abc`.
+2. Fill in `greet(name)` so it logs `` `Hello, ${name}` ``.
+3. Give the **Greet** button an `onClick` that calls `greet("Ada")`. To pass an argument, wrap the call in an arrow function: `onClick={() => greet("Ada")}`.
+
+Nothing should be logged just from the page rendering. Messages appear only when you type or click.
 
 @@ starter
 function App() {
-  return null;
+  function greet(name) {
+    // log `Hello, ${name}`
+  }
+
+  return (
+    <div>
+      {/* 1. add onChange to this input */}
+      <input />
+      {/* 3. add onClick that calls greet("Ada") */}
+      <button>Greet</button>
+    </div>
+  );
 }
 
 @@ solution

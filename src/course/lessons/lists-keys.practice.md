@@ -7,11 +7,14 @@ Recap:
 - Every item needs a stable `key`
 
 @@ instructions
-Show a leaderboard of only the players who scored **20 or more** points.
+Show a leaderboard of only the players with **20 or more** points.
 
-- Render an `<ol>`
-- One `<li>` per qualifying player, with text like `Ana: 30`
-- Use `.filter()`, then `.map()`, with `key={...id}`
+1. Inside the `<ol>`, start from `leaderboard`.
+2. Chain `.filter(...)` to keep entries where `entry.points >= 20`.
+3. Then chain `.map(...)` to turn each entry into `<li key={entry.id}>`.
+4. Each `<li>` reads `Player: points`, for example `Ana: 30`. Write it as `{entry.player}: {entry.points}`.
+
+Expected result: two items, `Ana: 30` and `Cy: 45`. Ben is left out with 12 points.
 
 @@ starter
 const leaderboard = [
@@ -21,7 +24,11 @@ const leaderboard = [
 ];
 
 function App() {
-  return null;
+  return (
+    <ol>
+      {/* leaderboard.filter(...).map((entry) => <li key={...}>...</li>) */}
+    </ol>
+  );
 }
 
 @@ solution

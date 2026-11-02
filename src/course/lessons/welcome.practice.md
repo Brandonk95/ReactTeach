@@ -7,14 +7,26 @@ Quick recap before you try it from memory:
 - Strings join with `+`: `"a" + "b"` is `"ab"`
 
 @@ instructions
-Write three `console.log` lines:
+Write exactly three `console.log` lines, in this order:
 
-1. The text `Ready to code`
-2. The result of `10 * 4` (let JavaScript calculate it)
-3. The text `React & JavaScript`, built by joining `"React"`, `" & "` and `"JavaScript"` with `+`
+1. Log the text `Ready to code`. This must be the **first** line printed.
+2. Log the result of `10 * 4`. Write the math itself, not `40`, so JavaScript calculates it.
+3. Log `React & JavaScript`, built by joining three strings with `+`: `"React"`, `" & "` and `"JavaScript"`.
+
+When you **Run** it, the Console should show:
+
+```
+Ready to code
+40
+React & JavaScript
+```
 
 @@ starter
+// 1. Log "Ready to code"
 
+// 2. Log the result of 10 * 4
+
+// 3. Log "React" + " & " + "JavaScript"
 
 @@ solution
 console.log("Ready to code");

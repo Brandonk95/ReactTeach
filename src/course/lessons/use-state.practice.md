@@ -9,15 +9,28 @@ Recap:
 @@ instructions
 Build a like button:
 
-- Store whether it's liked with `useState(false)`.
-- A `<button>` says `Like` when not liked and `Unlike` when liked. Clicking it toggles.
-- A `<p>` says `Not liked` or `Liked`.
+1. Create state for whether it's liked: `const [liked, setLiked] = useState(false);`
+2. The `<button>`:
+   - shows `Like` when `liked` is false, and `Unlike` when it's true
+   - when clicked, flips `liked`: `setLiked(!liked)`
+3. The `<p>` shows `Not liked` or `Liked` to match.
+
+Both texts come from the same state, using a ternary like `{liked ? "Unlike" : "Like"}`.
 
 @@ starter
 import { useState } from "react";
 
 function App() {
-  return null;
+  // 1. liked state, starting as false
+
+  return (
+    <div>
+      {/* 2. button: "Like" / "Unlike", toggles liked on click */}
+      <button>Like</button>
+      {/* 3. "Not liked" / "Liked" */}
+      <p>Not liked</p>
+    </div>
+  );
 }
 
 @@ solution

@@ -7,13 +7,43 @@ Recap:
 - Every component that calls it gets **its own** independent state
 
 @@ instructions
-1. Write `useCounter(initial = 0, step = 1)`, returning `{ count, increment, decrement, reset }`:
-   - `increment` / `decrement` change `count` by `step`
-   - `reset` sets it back to `initial`
-2. In `App`, use it **twice** to show two independent counters. Each one is a `<div className="counter">` with a `<p>` showing the count and a **+** button.
+1. Write **`useCounter(initial = 0, step = 1)`**:
+   - Create state: `const [count, setCount] = useState(initial);`
+   - Return an object `{ count, increment, decrement, reset }`, where:
+     - `increment` adds `step` to `count`
+     - `decrement` subtracts `step`
+     - `reset` sets it back to `initial`
+
+   Use the updater form for `increment` and `decrement`: `setCount((previousCount) => previousCount + step)`.
+
+   For example, `useCounter(10, 5)` starts at `10`, and `increment()` makes it `15`.
+2. In **`App`**, call `useCounter()` **twice** to get two independent counters, `apples` and `oranges`. Render each as:
+   ```jsx
+   <div className="counter">
+     <p>{apples.count}</p>
+     <button onClick={apples.increment}>+</button>
+   </div>
+   ```
+   Clicking one counter's **+** must not change the other.
 
 @@ starter
 import { useState } from "react";
+
+function useCounter(initial = 0, step = 1) {
+  // create count state starting at initial
+  // return { count, increment, decrement, reset }
+}
+
+function App() {
+  // const apples = useCounter();
+  // const oranges = useCounter();
+
+  return (
+    <div>
+      {/* two <div className="counter"> boxes, each with a <p> and a "+" button */}
+    </div>
+  );
+}
 
 @@ solution
 import { useState } from "react";

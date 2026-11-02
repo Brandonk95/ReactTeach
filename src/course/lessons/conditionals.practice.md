@@ -7,15 +7,37 @@ Recap:
 - Ternary: `condition ? valueIfTrue : valueIfFalse`
 
 @@ instructions
-1. Write the classic `fizzbuzz(number)`:
-   - divisible by 3 **and** 5 → `"FizzBuzz"`
-   - divisible by 3 → `"Fizz"`
-   - divisible by 5 → `"Buzz"`
-   - otherwise → the number as a **string**, e.g. `"7"`
-2. Write `canVote(age)` that returns `"yes"` for 18 and over, otherwise `"no"`. Use a ternary.
+1. **`fizzbuzz(number)`** returns a string:
+   - `"FizzBuzz"` if `number` is divisible by both 3 and 5 (that is, by 15)
+   - `"Fizz"` if it's divisible by 3
+   - `"Buzz"` if it's divisible by 5
+   - otherwise, the number as a string: `fizzbuzz(7)` → `"7"` (use `String(number)`)
+
+   Use `%` to test divisibility (`number % 3 === 0`), and check the "both" case **first**.
+
+   Examples: `fizzbuzz(15)` → `"FizzBuzz"`, `fizzbuzz(9)` → `"Fizz"`, `fizzbuzz(10)` → `"Buzz"`.
+2. **`canVote(age)`** returns `"yes"` if `age` is 18 or more, otherwise `"no"`. Write it as a one-line arrow function with a **ternary**: `condition ? "yes" : "no"`.
+
+Use `===`, never `==`.
 
 @@ starter
+function fizzbuzz(number) {
+  // if divisible by 15 → "FizzBuzz"
+  // else if divisible by 3 → "Fizz"
+  // else if divisible by 5 → "Buzz"
+  // otherwise → the number as a string
+}
 
+// One line, using a ternary: (age) => condition ? "yes" : "no"
+const canVote = (age) => {
+  // return ...
+};
+
+// Prints 1 to 15 so you can check fizzbuzz
+for (let count = 1; count <= 15; count++) {
+  console.log(fizzbuzz(count));
+}
+console.log(canVote(18), canVote(17));
 
 @@ solution
 function fizzbuzz(number) {

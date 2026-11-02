@@ -7,18 +7,30 @@ Recap:
 - Names are `camelCase` in JavaScript, not `snake_case`
 
 @@ instructions
-You're tracking a bank account.
+You're tracking a bank account. Declare each value with the right keyword: `const` if it never changes, `let` if it does.
 
-1. `taxRate` is `0.2` and never changes.
-2. `balance` starts at `100`. Subtract `30`, then add `5`, so it ends at `75`.
-3. The account name is `"Savings"` and never changes. Store it as `accountName` (camelCase, not `account_name`).
-4. Log the final `balance`.
+1. Declare `taxRate` with the value `0.2`. It never changes.
+2. Declare `balance` with the value `100`. It will change.
+3. Subtract `30` from `balance`, then add `5` to it, on separate lines. It should end at `75`.
+4. Declare `accountName` with the value `"Savings"`. It never changes. Use camelCase, not `account_name`.
+5. Log `balance`. The Console should show `75`.
 
-Pick `const` or `let` correctly for each one!
+Don't use `var`.
 
 @@ starter
-// Bank account practice
+// 1. taxRate: 0.2, never changes
 
+
+// 2. balance: starts at 100, will change
+
+
+// 3. subtract 30, then add 5
+
+
+// 4. accountName: "Savings", never changes
+
+
+// 5. log balance
 
 @@ solution
 const taxRate = 0.2;

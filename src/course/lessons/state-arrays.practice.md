@@ -10,12 +10,18 @@ Recap:
 Never assign `item.done = true` or `push`. Always give `setItems` a **new** array.
 
 @@ instructions
-The shopping list is already in state. Add:
+The shopping list is already in state. Finish it without mutating `items`:
 
-1. One `<li>` per item showing its `name` and a **Toggle** button. Toggling flips `done`, and done items get `className="done"`.
-2. A **Clear done** button that removes every done item.
+1. **`toggleDone(id)`**: call `setItems` with a new array from `.map()`. For the item whose `id` matches, return a copy with `done` flipped (`{ ...item, done: !item.done }`). Return every other item unchanged.
+2. **`clearDone()`**: call `setItems` with `.filter()`, keeping only items where `done` is false.
+3. **Render each item** as `<li key={item.id}>`, containing:
+   - the item's `name`
+   - a **Toggle** button that calls `toggleDone(item.id)`
 
-Use `.map()` to toggle and `.filter()` to clear, without mutating.
+   Give the `<li>` `className="done"` when `item.done` is true (`className={item.done ? "done" : ""}`). The preview crosses those out.
+4. Under the list, a **Clear done** button calls `clearDone`.
+
+Don't use `.push`, `.splice`, or assignments like `item.done = true`.
 
 @@ starter
 import { useState } from "react";
@@ -27,9 +33,21 @@ function App() {
     { id: 3, name: "Bread", done: false },
   ]);
 
+  function toggleDone(id) {
+    // setItems(items.map(...)): flip done on the matching item
+  }
+
+  function clearDone() {
+    // setItems(items.filter(...)): keep items that aren't done
+  }
+
   return (
     <div>
       <h2>Shopping list</h2>
+      <ul>
+        {/* 3. items.map((item) => <li key={item.id} ...>name + Toggle button</li>) */}
+      </ul>
+      {/* 4. Clear done button */}
     </div>
   );
 }

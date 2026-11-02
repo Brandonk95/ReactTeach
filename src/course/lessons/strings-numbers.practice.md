@@ -7,16 +7,35 @@ Recap:
 - `.toUpperCase()` returns an uppercase copy of a string
 
 @@ instructions
-Using the variables provided:
+The three variables at the top are given. Below them:
 
-1. `bio` should be `Guido was born in 1956 and is 70 years old.`, built with a template literal. **Calculate** the age from the years.
-2. `isSenior` should be `true` if the age is 65 or more (a real comparison, not typed by hand).
-3. `shout` should be the first name in all caps, using a string method.
+1. Declare `age` as `currentYear - birthYear`.
+2. Declare `bio` using a **template literal** (backticks) so it reads exactly:
+   `Guido was born in 1956 and is 70 years old.`
+   Insert `firstName`, `birthYear` and `age` with `${...}`. Don't type `70` yourself, since it has to be calculated.
+3. Declare `isSenior` as the comparison `age >= 65`. It should be the boolean `true`.
+4. Declare `shout` as `firstName` in all capitals (`"GUIDO"`), using the `.toUpperCase()` method.
+5. Uncomment the `console.log` at the bottom of the starter to check all three.
 
 @@ starter
 const firstName = "Guido";
 const birthYear = 1956;
 const currentYear = 2026;
+
+// 1. age = currentYear minus birthYear
+
+
+// 2. bio, with a template literal: `... ${firstName} ...`
+
+
+// 3. isSenior: is age 65 or more?
+
+
+// 4. shout: firstName in capitals
+
+
+// 5. once all three exist, uncomment this to check them
+// console.log(bio, isSenior, shout);
 
 @@ solution
 const firstName = "Guido";

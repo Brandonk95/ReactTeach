@@ -22,7 +22,7 @@ const { data, loading, error } = useFetch("https://api.example.com/users");
 ### Useful reminders
 
 - `"Grace".toLowerCase()` is `"grace"`, and `"grace".includes("gr")` is `true`.
-- `resp.ok` is `false` for error status codes like 500.
+- `response.ok` is `false` for error status codes like 500.
 - Search results can be **calculated** from the data and the search text. They don't need their own state.
 
 @@ instructions
@@ -59,9 +59,9 @@ function useFetch(url) {
       setLoading(true);
       setError(null);
       try {
-        const resp = await fetch(url);
-        if (!resp.ok) throw new Error(`Request failed with status ${resp.status}`);
-        setData(await resp.json());
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+        setData(await response.json());
       } catch (fetchError) {
         setData(null);
         setError(fetchError.message);

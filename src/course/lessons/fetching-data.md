@@ -100,9 +100,9 @@ function App() {
   useEffect(() => {
     async function load() {
       try {
-        const resp = await fetch("https://api.example.com/users");
-        if (!resp.ok) throw new Error(`Server returned ${resp.status}`);
-        setUsers(await resp.json());
+        const response = await fetch("https://api.example.com/users");
+        if (!response.ok) throw new Error(`Server returned ${response.status}`);
+        setUsers(await response.json());
       } catch (fetchError) {
         setError(fetchError.message);
       } finally {
@@ -130,7 +130,7 @@ function App() {
 Inside `useEffect(() => { ... }, [])`, define `async function load() { ... }` and call `load();`
 
 @@ hint
-In `load`: `const resp = await fetch("https://api.example.com/users"); setUsers(await resp.json()); setLoading(false);`
+In `load`: `const response = await fetch("https://api.example.com/users"); setUsers(await response.json()); setLoading(false);`
 
 @@ hint
 In the JSX: `{loading ? <p>Loading...</p> : <ul>{users.map((user) => <li key={user.id}>{user.name}</li>)}</ul>}`

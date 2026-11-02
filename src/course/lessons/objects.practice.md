@@ -7,15 +7,35 @@ Recap:
 - Combine: `{ ...a, ...b }`, where later keys win
 
 @@ instructions
-1. `summary(book)` returns `"Dune by Frank Herbert"`. Destructure `title` and `author` **right in the parameter list**.
-2. `withPages(book, pageCount)` returns a **new** book with `pages` set to `pageCount`. The original must not change.
-3. `merge(base, overrides)` returns a new object with everything from `base` and `overrides`. If both have a key, the value from `overrides` wins.
+Fill in the three functions. Use their parameters, not `sampleBook`, because the tests pass in their own objects.
 
-Use the parameters inside your functions, not `sampleBook`. The tests pass in their own objects.
+1. **`summary({ title, author })`**: the parameter list already destructures the book. Return `` `${title} by ${author}` ``.
+   - `summary(sampleBook)` → `"Dune by Frank Herbert"`
+2. **`withPages(book, pageCount)`**: return a **new** object: a copy of `book` with `pages` set to `pageCount`. Use spread: `{ ...book, pages: pageCount }`. Don't change `book` itself.
+   - `withPages(sampleBook, 500)` → `{ title: "Dune", author: "Frank Herbert", pages: 500 }`
+3. **`merge(base, overrides)`**: return a new object containing every key from `base` and `overrides`. Where both have the same key, `overrides` wins. Spread both into one object, putting `overrides` **last**.
+   - `merge({ x: 1, y: 2 }, { y: 3, z: 4 })` → `{ x: 1, y: 3, z: 4 }`
 
 @@ starter
 // Sample data for trying your functions. Don't use it inside them!
 const sampleBook = { title: "Dune", author: "Frank Herbert", pages: 412 };
+
+function summary({ title, author }) {
+  // return "<title> by <author>"
+}
+
+function withPages(book, pageCount) {
+  // return a copy of book with pages set to pageCount
+}
+
+function merge(base, overrides) {
+  // return one new object with base's keys, then overrides' keys
+}
+
+console.log(summary(sampleBook));
+console.log(withPages(sampleBook, 500));
+console.log(merge({ x: 1, y: 2 }, { y: 3, z: 4 }));
+console.log(sampleBook); // should still have pages: 412
 
 @@ solution
 // Sample data for trying your functions. Don't use it inside them!
